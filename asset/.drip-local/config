@@ -1,0 +1,33 @@
+^(Core)
+-------
+
+interval
+========
+
+**5000**
+
+--------
+
+adjust
+======
+
+**0**
+
+--------
+
+ignores
+=======
+
+  - .drip-instances/
+  - .drip-project/
+  - .git/
+  - .gitkeep
+
+--------
+
+plugins
+=======
+
+  - shell
+
+---------

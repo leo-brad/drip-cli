@@ -7,7 +7,7 @@ import getConfig from '~/lib/util/getConfig';
 
 export default function start(...param) {
   const [one, ...rest] = param;
-  const config = getConfig;
-  fork('.drip-project/drip/dist/index.js', [JSON.stringify(config)]);
-  execSync('cd .drip-project/drip-gui/ && npx electron dist/main.js');
+  const config = getConfig();
+  fork('.drip/local/drip/dist/index.js', [JSON.stringify(config)]);
+  execSync('cd .drip/local/drip-gui/ && npx electron dist/main.js');
 }

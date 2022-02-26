@@ -8,29 +8,23 @@ function cancelInstall() {
 }
 
 function alreadyInstall() {
-  console.error('Directory .drip-project/ already had been exist...');
+  console.error('Directory .drip/ already had been exist...');
 }
 
 function confirmInstall() {
   const dripDir = path.join(process.env.HOME, '.drip');
   fs.cpSync(
-    path.join(dripDir, 'asset/.drip-project/'),
-    '.drip-project/',
+    path.join(dripDir, 'asset/.drip/'), '.drip/',
     { recursive: true, },
   );
-  fs.cpSync(
-    path.join(dripDir, 'asset/.drip-local/'),
-    '.drip-local/',
-    { recursive: true, },
-  );
-  execSync('git clone /tmp/drip-static/.git .drip-local/drip');
-  execSync('git clone /tmp/drip-gui-static/.git .drip-local/drip-gui');
+  execSync('git clone /tmp/drip-static/.git .drip/local/drip');
+  execSync('git clone /tmp/drip-gui-static/.git .drip/local/drip-gui');
   console.log('Drip install on ' + process.cwd() + '...');
 }
 
 export default async function init(...param) {
   const [one, ...rest] = param;
-  if (fs.existsSync('.drip-project/')) {
+  if (fs.existsSync('.drip/')) {
     alreadyInstall();
   } else {
     let result;

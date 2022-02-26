@@ -76,6 +76,6 @@ test('main process', () => {
     'nvm use v17.3.0',
     'drip init -y',
     'drip install',
-    'echo \'locate index\' > /tmp/example/.drip-local/instance/[shell]:shell1',
+    'echo \'locate index\' > /tmp/example/.drip/local/instance/[shell]:shell1',
   ].join(' && '));
 });

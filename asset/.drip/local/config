@@ -18,8 +18,7 @@ adjust
 ignores
 =======
 
-  - .drip-instances/
-  - .drip-project/
+  - .drip/local/
   - .git/
   - .gitkeep
 

@@ -1,6 +1,6 @@
 import add from './add';
 
-export default function plugin(...param) {
+export default function pkg(...param) {
   const [one, ...rest] = param;
   switch (one) {
     case 'add':

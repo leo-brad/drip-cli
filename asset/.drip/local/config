@@ -8,10 +8,17 @@ interval
 
 --------
 
-adjust
-======
+adjustCore
+==========
 
 **0**
+
+--------
+
+minMem
+======
+
+**500**
 
 --------
 
@@ -22,10 +29,10 @@ ignores
   - .git/
   - .gitkeep
 
---------
+----------------
 
-plugins
-=======
+packages
+========
 
   - shell
 

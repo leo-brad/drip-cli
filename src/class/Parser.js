@@ -125,12 +125,13 @@ class Parser {
     const key = this.parseSecondHead();
     this.matchLine();
     switch (key) {
-      case 'adjust':
       case 'interval':
+      case 'minMem':
+      case 'adjustCore':
         obj[key] = this.parseBold();
         break;
       case 'ignores':
-      case 'plugins':
+      case 'packages':
         obj[key] = this.parseList();
         break;
     }

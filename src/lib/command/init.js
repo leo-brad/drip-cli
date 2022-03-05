@@ -17,8 +17,7 @@ function confirmInstall() {
     path.join(dripDir, 'asset/.drip/'), '.drip/',
     { recursive: true, },
   );
-  execSync('git clone /tmp/drip-static/.git .drip/local/drip');
-  execSync('git clone /tmp/drip-gui-static/.git .drip/local/drip-gui');
+  execSync('git clone /tmp/drip-local-static/.git .drip/local/drip-local');
   console.log('Drip install on ' + process.cwd() + '...');
 }
 

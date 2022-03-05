@@ -19,7 +19,7 @@ export default function help(...param) {
     '                                \n',
     '    - init                      \n',
     '    - start                     \n',
-    '    - plugin                    \n',
+    '    - package                   \n',
     '                                \n',
     '  Run ', chalk.bold('`drip help [command]`'), ' for more information on specific commands.\n',
     '  Visit ', chalk.bold('https://doc.driptool.com/'), ' to learn more about Drip.\n',

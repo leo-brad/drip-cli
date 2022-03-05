@@ -3,9 +3,9 @@ import Parser from '~/class/Parser';
 import Scaner from '~/class/Scaner';
 
 export default function getConfig() {
-  const localString = fs.readFileSync('.drip/local/config').toString();
-  const localConfig =  new Parser(new Scaner(localString)).parse();
-  const projectString = fs.readFileSync('.drip/local/config').toString();
-  const projectConfig =  new Parser(new Scaner(projectString)).parse();
-  return { ...localConfig, ...projectConfig, };
+  const ls = fs.readFileSync('.drip/local/config').toString();
+  const lc =  new Parser(new Scaner(ls)).parse();
+  const ps = fs.readFileSync('.drip/local/config').toString();
+  const pc =  new Parser(new Scaner(ps)).parse();
+  return { ...lc, ...pc, };
 }

@@ -1,55 +1,47 @@
 import { execSync, } from 'child_process';
 import path from 'path';
 
-beforeAll(() => {
+function buildStatic(project, operates, paths, shells) {
+  let srcPath;
+  switch (project) {
+    case 'drip-cli':
+      srcPath = path.join('.');
+      break;
+    default:
+      srcPath = path.join('..', project);
+      break;
+  }
+  console.log('srcPath', srcPath);
   const cwd = process.cwd();
-
-  execSync('rm -rf $HOME/.drip/');
-
-  execSync('yarn run build');
-  execSync('[ -d /tmp/drip-cli-static/ ] || mkdir /tmp/drip-cli-static/');
+  const staticPath = path.join('/', 'tmp', project + '-staitc');
+  shells.push('cd ', srcPath);
+  operates.forEach((p) => {
+    shells.push('yarn run ' + p);
+  });
+  shells.push('rm -rf ' + staticPath);
+  shells.push('mkdir ' + staticPath);
   process.chdir(cwd);
-  execSync('cp -a -R ../drip-cli/bin /tmp/drip-cli-static/');
-  execSync('cp -a -R ../drip-cli/dist /tmp/drip-cli-static/');
-  execSync('cp -a -R ../drip-cli/asset /tmp/drip-cli-static/');
-  execSync('cp -a -R ../drip-cli/node_modules /tmp/drip-cli-static/');
-  process.chdir('/tmp/drip-cli-static/');
-  execSync('rm -rf .git');
-  execSync('git init');
-  execSync('git add --all');
-  execSync('git commit -m "[Update]"');
+  paths.forEach((p) => {
+    shells.push('cp -a -R ' + path.join(srcPath, p) + ' ' + staticPath);
+  });
+  shells.push('cd ' + staticPath);
+  shells.push('rm -rf .git');
+  shells.push('git init');
+  shells.push('git add --all');
+  shells.push('git commit -m "[Update]"');
+  shells.push('cd ' + cwd)
+}
 
-  process.chdir(path.resolve(cwd, '../drip-local/'));
-  execSync('yarn run build');
-  execSync('yarn run pro');
-  execSync('rm -rf /tmp/drip-local-static/ && mkdir /tmp/drip-local-static/');
-  process.chdir(cwd);
-  execSync('cp -a -R ../drip-local/dist /tmp/drip-local-static/');
-  execSync('cp -a -R ../drip-local/node_modules /tmp/drip-local-static/');
-  process.chdir('/tmp/drip-local-static/');
-  execSync('rm -rf .git');
-  execSync('git init');
-  execSync('git add --all');
-  execSync('git commit -m "[Update]"');
-
-  process.chdir(path.resolve(cwd, '../drip-package-shell/'));
-  execSync('yarn run pro');
-  execSync('yarn run build');
-  execSync('[ -d /tmp/drip-package-shell-static/ ] || mkdir /tmp/drip-package-shell-static/');
-  process.chdir(cwd);
-  execSync('cp -a -R ../drip-package-shell/dist /tmp/drip-package-shell-static/');
-  process.chdir('/tmp/drip-package-shell-static/');
-  execSync('rm -rf .git');
-  execSync('git init');
-  execSync('git add --all');
-  execSync('git commit -m "[Update]"');
-
-  process.chdir(cwd);
-  execSync('node ./dist/bin/install.js');
-
-  process.chdir('/tmp');
-  execSync('rm -rf example');
-  execSync('mkdir example');
+beforeAll(() => {
+  const shells = [];
+  shells.push('rm -rf $HOME/.drip/');
+  buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules'], shells);
+  buildStatic('drip-local', ['build', 'pro'], ['bin', 'dist', 'asset', 'node_modules'], shells);
+  buildStatic('drip-package-shell', ['build', 'pro'], ['dist'], shells);
+  shells.push('node ./dist/bin/install.js');
+  shells.push('rm -rf /tmp/example');
+  shells.push('mkdir /tmp/example');
+  execSync(shells.join('&&'));
 });
 
 afterAll(() => {
@@ -57,13 +49,13 @@ afterAll(() => {
 });
 
 test('main process', () => {
-  execSync([
-    'cd /tmp/example/',
-    'unset PREFIX',
-    '. ~/.nvm/nvm.sh',
-    'nvm use v17.3.0',
-    'drip init -y',
-    'drip install',
-    'echo \'locate index\' > /tmp/example/.drip/local/instance/[shell]:shell1',
-  ].join(' && '));
+  //execSync([
+    //'cd /tmp/example/',
+    //'unset PREFIX',
+    //'. ~/.nvm/nvm.sh',
+    //'nvm use v17.3.0',
+    //'drip init -y',
+    //'drip install',
+    //'echo \'locate index\' > /tmp/example/.drip/local/instance/[shell]:shell1',
+  //].join(' && '));
 });

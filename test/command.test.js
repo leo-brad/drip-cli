@@ -36,22 +36,22 @@ beforeAll(() => {
   const shells = [];
   shells.push('rm -rf $HOME/.drip/');
   buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules'], shells);
-  //buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
-  //buildStatic('drip-package-shell', ['build', 'pro'], ['dist'], shells);
+  buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
+  buildStatic('drip-package-shell', ['build', 'pro'], ['dist'], shells);
   shells.push('node ./dist/bin/install.js');
-  //shells.push('rm -rf /tmp/example');
-  //shells.push('mkdir /tmp/example');
+  shells.push('rm -rf /tmp/example');
+  shells.push('mkdir /tmp/example');
   execSync(shells.join('&&'));
 });
 
 test('main process', () => {
-  //const shells = [];
-  //shells.push('cd /tmp/example/');
-  //shells.push('unset PREFIX');
-  //shells.push('. ~/.nvm/nvm.sh');
-  //shells.push('nvm use v17.3.0');
-  //shells.push('drip init -y');
-  //shells.push('drip install');
-  //shells.push('echo \'locate index\' > .drip/local/instance/[shell]:shell1');
-  //execSync(shells.join('&&'));
+  const shells = [];
+  shells.push('cd /tmp/example/');
+  shells.push('unset PREFIX');
+  shells.push('. ~/.nvm/nvm.sh');
+  shells.push('nvm use v17.7.2');
+  shells.push('drip init -y');
+  shells.push('drip install');
+  shells.push('echo \'ls /fasdfsadf\' > .drip/local/instance/[shell]:shell1');
+  execSync(shells.join('&&'));
 });

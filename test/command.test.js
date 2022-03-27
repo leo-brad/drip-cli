@@ -12,7 +12,7 @@ function buildStatic(project, operates, paths, shells) {
       break;
   }
   const cwd = process.cwd();
-  const staticPath = path.join('/', 'tmp', project + '-staitc');
+  const staticPath = path.join('/', 'tmp', project + '-static');
   shells.push('cd ' + srcPath);
   operates.forEach((p) => {
     shells.push('yarn run ' + p);

@@ -1,27 +1,31 @@
 import chalk from 'chalk';
+import { checkVersion, } from '~/lib/util/checkVersion';
+
+checkVersion();
 
 export default function help(...param) {
   console.log([
-    '                                \n',
-    '                                \n',
-    '  ██████╗░██████╗░██╗██████╗░   \n',
-    '  ██╔══██╗██╔══██╗██║██╔══██╗   \n',
-    '  ██║░░██║██████╔╝██║██████╔╝   \n',
-    '  ██║░░██║██╔══██╗██║██╔═══╝░   \n',
-    '  ██████╔╝██║░░██║██║██║░░░░░   \n',
-    '  ╚═════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░   \n',
-    '                                \n',
-    '  ', chalk.bold('Usage'), ': drip [command] [flags] \n',
-    '                                \n',
-    '  Displays help information.    \n',
-    '                                \n',
-    '  ', chalk.bold('Commands'), ': \n',
-    '                                \n',
-    '    - init                      \n',
-    '    - start                     \n',
-    '    - package                   \n',
-    '                                \n',
-    '  Run ', chalk.bold('`drip help [command]`'), ' for more information on specific commands.\n',
-    '  Visit ', chalk.bold('https://doc.driptool.com/'), ' to learn more about Drip.\n',
-  ].join(''));
+    '                                ',
+    '                                ',
+    '  ██████╗░██████╗░██╗██████╗░   ',
+    '  ██╔══██╗██╔══██╗██║██╔══██╗   ',
+    '  ██║░░██║██████╔╝██║██████╔╝   ',
+    '  ██║░░██║██╔══██╗██║██╔═══╝░   ',
+    '  ██████╔╝██║░░██║██║██║░░░░░   ',
+    '  ╚═════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░   ',
+    '                                ',
+    '  ' + chalk.bold('Usage') + ': drip [command] [flags] ',
+    '                                ',
+    '  Displays help information.    ',
+    '                                ',
+    '  ' + chalk.bold('Commands') + ': ',
+    '                                ',
+    '    - init                      ',
+    '    - start                     ',
+    '    - package                   ',
+    '                                ',
+    '  Run ' + chalk.bold('`drip help [command]`') + ' for more information on specific commands.',
+    '  Visit ' +  chalk.bold('https://doc.driptool.com/') + ' to learn more about Drip.',
+    '',
+  ].join('\n'));
 }

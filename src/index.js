@@ -12,5 +12,3 @@
   //'npx', ['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
   //{ detached: true, },
 //);
-require('~/bin/drip');
-import chalk from 'chalk';

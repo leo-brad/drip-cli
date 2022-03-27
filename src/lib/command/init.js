@@ -9,7 +9,7 @@ function cancelInstall() {
 }
 
 function alreadyInstall() {
-  console.error('Directory .drip/ already had been exist...');
+  console.error('Directory \'.drip/\' already had been exist...');
 }
 
 function confirmInstall() {

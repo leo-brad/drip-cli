@@ -2,7 +2,6 @@ import chalk from 'chalk';
 import { checkVersion, } from '~/lib/util/checkVersion';
 
 checkVersion();
-
 export default function help(...param) {
   console.log([
     '                                ',

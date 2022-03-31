@@ -1,39 +1,18 @@
-^(Core)
--------
+" Interval before each update.
+interval: 5000(ms)
 
-interval
-========
+" Interval before each update.
+min-mem: 500(mb)
 
-**5000**
+" Interval before each update.
+adjust-core: 0(core)
 
---------
-
-adjustCore
-==========
-
-**0**
-
---------
-
-minMem
-======
-
-**500**
-
---------
-
-ignores
-=======
-
+" Interval before each update.
+ignores:
   - .drip/local/
   - .git/
   - .gitkeep
 
-----------------
-
-packages
-========
-
-  - shell
-
----------
+" Interval before each update.
+packages:
+  - [shell](/tmp/drip-package-shell-static/.git/)

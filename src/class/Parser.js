@@ -1,16 +1,16 @@
+function matchChar(l, r) {
+  if (l !== r) {
+    throw Error('error');
+  }
+}
+
 class Parser {
   constructor(s) {
     this.s = s;
   }
 
-  matchChar(l, r) {
-    if (l !== r) {
-      throw Error('error');
-    }
-  }
-
   matchOneChar(c) {
-    this.matchChar(this.s.nextChar(), c);
+    matchChar(this.s.nextChar(), c);
   }
 
   matchOneCharMultiply(c, t) {
@@ -33,7 +33,34 @@ class Parser {
     }
   }
 
-  matchLine() {
+  matchSpareChar() {
+    while (true) {
+      const c = this.s.glanceChar();
+      if (c !== ' ' && c !== '\n') {
+        this.s.nextIndex();
+        break;
+      }
+    }
+    this.s.nextIndex();
+  }
+
+  matchStringEndWith(end) {
+    const array = [];
+    let name;
+    while (true) {
+      const char = this.s.glanceChar();
+      if (char !== end) {
+        this.s.nextIndex();
+      } else {
+        break;
+      }
+    }
+  }
+
+  matchComment() {
+    this.matchOneChar('"');
+    this.matchOneChar(' ');
+    this.matchStringEndWith('\n');
     this.matchOneChar('\n');
   }
 
@@ -53,6 +80,43 @@ class Parser {
     return name;
   }
 
+  parseNames() {
+    const names = [];
+    while (true) {
+      const n = this.parseName();
+      if (names.length === 0) {
+        names.push(n);
+      } else {
+        const a = n.split('');
+        a[0] = a[0].toUpperCase();
+        names.push(a.join(''));
+      }
+      const c = this.s.glanceChar();
+      if (c !== '-') {
+        break;
+      } else {
+        this.s.nextIndex();
+      }
+    }
+    return names.join('');
+  }
+
+  parseInt() {
+    const array = [];
+    let int;
+    while (true) {
+      const char = this.s.glanceChar();
+      if (char >= '0' && char <= '9') {
+        array.push(char);
+        this.s.nextIndex();
+      } else {
+        int = array.join('');
+        break;
+      }
+    }
+    return parseInt(int);
+  }
+
   parseStringEndWith(end) {
     const array = [];
     let name;
@@ -69,17 +133,57 @@ class Parser {
     return name;
   }
 
-  parseBold() {
-    this.matchOneCharMultiply('*', 2);
-    const string = this.parseStringEndWith('*');
-    this.matchOneCharMultiply('*', 2);
-    return string;
+  parseArray(obj) {
+    const n = this.parseNames();
+    this.matchOneChar(':');
+    this.matchOneChar('\n')
+    switch (n) {
+      case 'ignores':
+        obj[n] = this.parseList();
+        break;
+      case 'packages':
+        obj[n] = this.parseList();
+        break;
+    }
+  }
+
+  parseValue(obj) {
+    const n = this.parseNames();
+    this.matchOneChar(':');
+    this.matchOneChar(' ')
+    switch (n) {
+      case 'interval':
+      case 'minMem':
+      case 'adjustCore':
+        obj[n] = this.parseInt();
+        this.matchStringEndWith('\n');
+        break;
+    }
+  }
+
+  parseSingleList(obj) {
+    this.matchComment();
+    this.parseArray(obj);
+    try {
+      this.matchOneChar('\n');
+    } catch (e) {
+    }
+  }
+
+  parseSingleValue(obj) {
+    this.matchComment();
+    this.parseValue(obj);
+    this.matchOneChar('\n');
+    this.matchOneChar('\n');
   }
 
   parseList() {
     const ans = [];
-    while (this.s.glanceChar() !== '\n') {
-      ans.push(this.parseItem());
+    try {
+      while (this.s.glanceChar() !== '\n') {
+        ans.push(this.parseItem());
+      }
+    } catch (e) {
     }
     return ans;
   }
@@ -89,61 +193,23 @@ class Parser {
     this.matchOneChar('-');
     this.matchOneChar(' ');
     const item = this.parseStringEndWith('\n');
-    this.matchLine();
+    this.matchOneChar('\n');
     return item;
-  }
-
-  parseFirstHead() {
-    this.matchChar(this.s.currentChar(), '^');
-    this.matchOneChar('(');
-    const name = this.parseName();
-    this.matchOneChar(')');
-    this.matchSeriesLine('-', 3);
-    this.matchLine();
-    return name;
-  }
-
-  parseSecondHead() {
-    const name = this.parseName();
-    this.matchSeriesLine('=', 3);
-    return name;
-  }
-
-  parseSecondContentMultiply(obj) {
-    while (this.s.glanceChar() !== '\n') {
-      this.parseSecondContent(obj);
-      try {
-        this.matchLine();
-      } catch (e) {
-        break;
-      }
-    }
-    return obj;
-  }
-
-  parseSecondContent(obj) {
-    const key = this.parseSecondHead();
-    this.matchLine();
-    switch (key) {
-      case 'interval':
-      case 'minMem':
-      case 'adjustCore':
-        obj[key] = this.parseBold();
-        break;
-      case 'ignores':
-      case 'packages':
-        obj[key] = this.parseList();
-        break;
-    }
-    this.matchLine();
-    this.matchSeriesLine('-', 3);
   }
 
   parse() {
     const ans = {};
-    const key = this.parseFirstHead().toLowerCase();
-    ans[key] = {};
-    this.parseSecondContentMultiply(ans[key]);
+    try {
+      this.parseSingleValue(ans);
+      this.parseSingleValue(ans);
+      this.parseSingleValue(ans);
+      this.parseSingleList(ans);
+      this.parseSingleList(ans);
+    } catch (e) {
+      console.log('e', e);
+      const [l, p] = this.s.getPosition();
+      console.error('l: ' + l + ', ' + 'p: ' + p);
+    }
     return ans;
   }
 }

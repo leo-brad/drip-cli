@@ -2,6 +2,7 @@ class Scaner {
   constructor(s) {
     this.s = s;
     this.i = -1;
+
     this.l = 1;
     this.p = 1;
   }

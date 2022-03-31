@@ -1,12 +1,28 @@
+import chalk from 'chalk';
+
 function matchChar(l, r) {
   if (l !== r) {
-    throw Error('error');
+    throw Error('format parsing exception;');
   }
 }
 
+function getLines(lines, n) {
+  let l = lines[n];
+  const e = '';
+  if (typeof l === 'string') {
+    if (Number.isNaN(l.charCodeAt(0))) {
+      l = e;
+    }
+  } else {
+    l = e;
+  }
+  return l.padEnd(78);
+}
+
 class Parser {
-  constructor(s) {
+  constructor(s, cp) {
     this.s = s;
+    this.cp = cp;
   }
 
   matchOneChar(c) {
@@ -31,17 +47,6 @@ class Parser {
         }
       }
     }
-  }
-
-  matchSpareChar() {
-    while (true) {
-      const c = this.s.glanceChar();
-      if (c !== ' ' && c !== '\n') {
-        this.s.nextIndex();
-        break;
-      }
-    }
-    this.s.nextIndex();
   }
 
   matchStringEndWith(end) {
@@ -84,6 +89,9 @@ class Parser {
     const names = [];
     while (true) {
       const n = this.parseName();
+      if (n.length === 0) {
+        throw Error('name parsing exception;');
+      }
       if (names.length === 0) {
         names.push(n);
       } else {
@@ -139,8 +147,6 @@ class Parser {
     this.matchOneChar('\n')
     switch (n) {
       case 'ignores':
-        obj[n] = this.parseList();
-        break;
       case 'packages':
         obj[n] = this.parseList();
         break;
@@ -156,17 +162,24 @@ class Parser {
       case 'minMem':
       case 'adjustCore':
         obj[n] = this.parseInt();
+        if (Number.isNaN(obj[n])) {
+          throw Error('integer parsing exception.');
+        }
         this.matchStringEndWith('\n');
         break;
     }
   }
 
-  parseSingleList(obj) {
+  parseSingleList(obj, isLast) {
     this.matchComment();
-    this.parseArray(obj);
-    try {
+    this.parseArray(obj, isLast);
+    if (isLast === true) {
+      try {
+        this.matchOneChar('\n');
+      } catch (e) {
+      }
+    } else {
       this.matchOneChar('\n');
-    } catch (e) {
     }
   }
 
@@ -177,23 +190,31 @@ class Parser {
     this.matchOneChar('\n');
   }
 
-  parseList() {
+  parseList(isLast) {
     const ans = [];
-    try {
-      while (this.s.glanceChar() !== '\n') {
-        ans.push(this.parseItem());
+    while (true) {
+      const c =  this.s.glanceChar();
+      if (c.length === 0 || c === '\n') {
+        break;
       }
-    } catch (e) {
+      ans.push(this.parseItem(isLast));
     }
     return ans;
   }
 
-  parseItem() {
+  parseItem(isLast) {
     this.matchOneCharMultiply(' ', 2);
     this.matchOneChar('-');
     this.matchOneChar(' ');
     const item = this.parseStringEndWith('\n');
-    this.matchOneChar('\n');
+    if (isLast === true) {
+      try {
+        this.matchOneChar('\n');
+      } catch (e) {
+      }
+    } else {
+      this.matchOneChar('\n');
+    }
     return item;
   }
 
@@ -204,13 +225,29 @@ class Parser {
       this.parseSingleValue(ans);
       this.parseSingleValue(ans);
       this.parseSingleList(ans);
-      this.parseSingleList(ans);
+      this.parseSingleList(ans, true);
     } catch (e) {
-      console.log('e', e);
-      const [l, p] = this.s.getPosition();
-      console.error('l: ' + l + ', ' + 'p: ' + p);
+      this.showError(e);
     }
     return ans;
+  }
+
+  showView(lines, l, p) {
+    console.log(chalk.gray(l - 2) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
+    console.log(chalk.gray(l - 1) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
+    console.log(chalk.gray(String(l - 1).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 1, ' '), chalk.bold.red('~^~'));
+    console.log(chalk.gray(l) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
+  }
+
+  showError(e) {
+    const lines = this.s.s.split('\n');
+    const [l, p] = this.s.getPosition();
+    const { cp, } = this;
+    this.showView(lines, l, p);
+    console.error(chalk.bold(
+      cp + ' parsing error occurs in line: ' + l + ', ' + 'poistion: ' + p + ';'
+    ));
+    console.log(e);
   }
 }
 

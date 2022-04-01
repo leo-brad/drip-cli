@@ -1,5 +1,11 @@
 import chalk from 'chalk';
 
+function checkPackage(s) {
+  if (!/^\[\w+\]\([\w\-\.\/\:]+\)$/.test(s)) {
+    throw Error('package format parsing exception;');
+  }
+}
+
 function matchChar(l, r) {
   if (l !== r) {
     throw Error('format parsing exception;');
@@ -16,7 +22,7 @@ function getLines(lines, n) {
   } else {
     l = e;
   }
-  return l.padEnd(78);
+  return l.padEnd(75);
 }
 
 class Parser {
@@ -141,14 +147,14 @@ class Parser {
     return name;
   }
 
-  parseArray(obj) {
+  parseArray(obj, isLast, check) {
     const n = this.parseNames();
     this.matchOneChar(':');
     this.matchOneChar('\n')
     switch (n) {
       case 'ignores':
       case 'packages':
-        obj[n] = this.parseList();
+        obj[n] = this.parseList(isLast, check);
         break;
     }
   }
@@ -170,9 +176,9 @@ class Parser {
     }
   }
 
-  parseSingleList(obj, isLast) {
+  parseSingleList(obj, isLast, check) {
     this.matchComment();
-    this.parseArray(obj, isLast);
+    this.parseArray(obj, isLast, check);
     if (isLast === true) {
       try {
         this.matchOneChar('\n');
@@ -190,23 +196,26 @@ class Parser {
     this.matchOneChar('\n');
   }
 
-  parseList(isLast) {
+  parseList(isLast, check) {
     const ans = [];
     while (true) {
       const c =  this.s.glanceChar();
       if (c.length === 0 || c === '\n') {
         break;
       }
-      ans.push(this.parseItem(isLast));
+      ans.push(this.parseItem(isLast, check));
     }
     return ans;
   }
 
-  parseItem(isLast) {
+  parseItem(isLast, check) {
     this.matchOneCharMultiply(' ', 2);
     this.matchOneChar('-');
     this.matchOneChar(' ');
     const item = this.parseStringEndWith('\n');
+    if (typeof check === 'function') {
+      check(item);
+    }
     if (isLast === true) {
       try {
         this.matchOneChar('\n');
@@ -225,9 +234,10 @@ class Parser {
       this.parseSingleValue(ans);
       this.parseSingleValue(ans);
       this.parseSingleList(ans);
-      this.parseSingleList(ans, true);
+      this.parseSingleList(ans, true, checkPackage);
     } catch (e) {
       this.showError(e);
+      process.exit(0);
     }
     return ans;
   }

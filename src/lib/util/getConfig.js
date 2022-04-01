@@ -7,7 +7,7 @@ export default function getConfig() {
   const ls = fs.readFileSync(cp1).toString();
   const lc =  new Parser(new Scaner(ls), cp1).parse();
   const cp2 = '.drip/project/config';
-  const ps = fs.readFileSync().toString();
+  const ps = fs.readFileSync(cp2).toString();
   const pc =  new Parser(new Scaner(ps), cp2).parse();
   return { ...lc, ...pc, };
 }

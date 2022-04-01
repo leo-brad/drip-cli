@@ -1,5 +1,5 @@
 " Interval before each update1.
-interval: fasdfasd(ms)
+interval: 5000(ms)
 
 " Interval before each update2.
 min-mem: 500(mb)
@@ -9,7 +9,7 @@ adjust-core: 0(core)
 
 " Interval before each update3.
 ignores:
-  r .drip/local/
+  - .drip/local/
   - .git/
   - .gitkeep
 

@@ -4,8 +4,8 @@ import installPackage from '~/lib/util/installPackage';
 export default function install(...param) {
   const [one, ...rest] = param;
   const config = getConfig();
-  const { core: { packages, }, } = config;
-  packages.forEach((plugin) => {
-    installPackage(plugin);
+  const { packages, } = config;
+  packages.forEach((pkg) => {
+    installPackage(pkg);
   });
 }

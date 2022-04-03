@@ -8,6 +8,7 @@ class Scaner {
   }
 
   nextIndex() {
+    this.i += 1;
     const { i, } = this;
     const c = this.s.charAt(i);
     switch (c) {
@@ -19,7 +20,6 @@ class Scaner {
         this.p += 1;
         break;
     }
-    this.i += 1;
   }
 
   getPosition() {

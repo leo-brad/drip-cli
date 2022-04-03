@@ -1,14 +1,25 @@
 import chalk from 'chalk';
 
+function showView(lines, l, p) {
+  console.log(chalk.gray(l - 2) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
+  console.log(chalk.gray(l - 1) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
+  console.log(chalk.gray(String(l - 1).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 1, ' '), chalk.bold.red('~^~'));
+  console.log(chalk.gray(l) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
+}
+
+function showTip(message) {
+  console.log(chalk.bold('Tip: ') + message);
+}
+
 function checkPackage(s) {
   if (!/^\[\w+\]\([\w\-\.\/\:]+\)$/.test(s)) {
-    throw Error('package format parsing exception;');
+    throw Error('package parsing exception.');
   }
 }
 
 function matchChar(l, r) {
   if (l !== r) {
-    throw Error('format parsing exception;');
+    throw Error('format parsing exception.');
   }
 }
 
@@ -96,7 +107,7 @@ class Parser {
     while (true) {
       const n = this.parseName();
       if (n.length === 0) {
-        throw Error('name parsing exception;');
+        throw Error('name parsing exception.');
       }
       if (names.length === 0) {
         names.push(n);
@@ -242,18 +253,22 @@ class Parser {
     return ans;
   }
 
-  showView(lines, l, p) {
-    console.log(chalk.gray(l - 2) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
-    console.log(chalk.gray(l - 1) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
-    console.log(chalk.gray(String(l - 1).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 1, ' '), chalk.bold.red('~^~'));
-    console.log(chalk.gray(l) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
-  }
-
   showError(e) {
     const lines = this.s.s.split('\n');
     const [l, p] = this.s.getPosition();
     const { cp, } = this;
-    this.showView(lines, l, p);
+    showView(lines, l, p);
+    switch (e.message) {
+      case 'name parsing exception.':
+        showTip(chalk.bold('name correct format is eg:(' + chalk.green('name1-name2') + ').'));
+        break;
+      case 'integer parsing exception.':
+        showTip(chalk.bold('integer correct format is eg:(' + chalk.green('10432') + ').'));
+        break;
+      case 'package parsing exception.':
+        showTip(chalk.bold('package correct format is [' + chalk.green('alias') +  '](' + chalk.red('address') + ').'));
+        break;
+    }
     console.error(chalk.bold(
       cp + ' parsing error occurs in line: ' + l + ', ' + 'poistion: ' + p + ';'
     ));

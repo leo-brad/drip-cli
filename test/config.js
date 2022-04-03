@@ -3,9 +3,10 @@ import Parser from '~/class/Parser';
 import Scaner from '~/class/Scaner';
 
 function main() {
-  const string = fs.readFileSync('./asset/.driprc').toString();
+  const cp = './asset/.drip/local/config';
+  const string = fs.readFileSync(cp).toString();
   const scaner = new Scaner(string);
-  const parser = new Parser(scaner);
+  const parser = new Parser(scaner, cp);
   console.log('config', parser.parse());
 }
 

@@ -260,7 +260,7 @@ class Parser {
     showView(lines, l, p);
     switch (e.message) {
       case 'name parsing exception.':
-        showTip(chalk.bold('name correct format is eg:(' + chalk.green('name1-name2') + ').'));
+        showTip(chalk.bold('name correct format is eg:(' + chalk.green('fasd-fsad') + ').'));
         break;
       case 'integer parsing exception.':
         showTip(chalk.bold('integer correct format is eg:(' + chalk.green('10432') + ').'));

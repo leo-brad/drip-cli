@@ -3,7 +3,7 @@ import chalk from 'chalk';
 function showView(lines, l, p) {
   console.log(chalk.gray(l - 2) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
   console.log(chalk.gray(l - 1) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
-  console.log(chalk.gray(String(l - 1).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 1, ' '), chalk.bold.red('~^~'));
+  console.log(chalk.gray(String(l - 1).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 3, ' '), chalk.bold.red('~^~'));
   console.log(chalk.gray(l) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
 }
 
@@ -19,7 +19,9 @@ function checkPackage(s) {
 
 function matchChar(l, r) {
   if (l !== r) {
-    throw Error('format parsing exception.');
+    const e = Error('format parsing exception.');
+    e.c = r;
+    throw e;
   }
 }
 
@@ -80,10 +82,14 @@ class Parser {
   }
 
   matchComment() {
-    this.matchOneChar('"');
-    this.matchOneChar(' ');
-    this.matchStringEndWith('\n');
-    this.matchOneChar('\n');
+    try {
+      this.matchOneChar('"');
+      this.matchOneChar(' ');
+      this.matchStringEndWith('\n');
+      this.matchOneChar('\n');
+    } catch(e) {
+      throw Error("remove necessary commment.");
+    }
   }
 
   parseName() {
@@ -259,8 +265,14 @@ class Parser {
     const { cp, } = this;
     showView(lines, l, p);
     switch (e.message) {
+      case 'remove necessary commment.':
+        showTip(chalk.bold('please don\'t manually modify commment information like eg:(' + chalk.red('" This is a necessary comment.') + ').'));
+        break;
+      case 'format parsing exception.':
+        showTip(chalk.bold('the current location can be a char "' + chalk.red(e.c) + '".'));
+        break;
       case 'name parsing exception.':
-        showTip(chalk.bold('name correct format is eg:(' + chalk.green('fasd-fsad') + ').'));
+        showTip(chalk.bold('name correct format is eg:(' + chalk.green('name1-name2') + ').'));
         break;
       case 'integer parsing exception.':
         showTip(chalk.bold('integer correct format is eg:(' + chalk.green('10432') + ').'));

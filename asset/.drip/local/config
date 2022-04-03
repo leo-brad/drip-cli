@@ -2,7 +2,7 @@
 interval: 5000(ms)
 
 " Stop add new task when current memory less than minimum memory.
-min-$%%mem: 100(mb)
+min-mem: 100(mb)
 
 " Increase or decrease core number which base recommended value.
 adjust-core: 0(core)

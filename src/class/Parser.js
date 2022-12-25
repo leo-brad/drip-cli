@@ -1,10 +1,10 @@
 import chalk from 'chalk';
 
 function showView(lines, l, p) {
-  console.log(chalk.gray(l - 2) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
-  console.log(chalk.gray(l - 1) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
-  console.log(chalk.gray(String(l - 1).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 3, ' '), chalk.bold.red('~^~'));
-  console.log(chalk.gray(l) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
+  console.log(chalk.gray(l - 1) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
+  console.log(chalk.gray(l) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
+  console.log(chalk.gray(String(l).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 3, ' '), chalk.bold.red('~^~'));
+  console.log(chalk.gray(l + 1) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
 }
 
 function showTip(message) {
@@ -184,6 +184,7 @@ class Parser {
       case 'interval':
       case 'minMem':
       case 'adjustCore':
+      case 'indexLevel':
         obj[n] = this.parseInt();
         if (Number.isNaN(obj[n])) {
           throw Error('integer parsing exception.');
@@ -244,6 +245,7 @@ class Parser {
     return item;
   }
 
+  // @TODO remove comment
   parse() {
     const ans = {};
     try {
@@ -252,6 +254,7 @@ class Parser {
       this.parseSingleValue(ans);
       this.parseSingleList(ans);
       this.parseSingleList(ans, true, checkPackage);
+      this.parseSingleValue(ans);
     } catch (e) {
       this.showError(e);
       process.exit(0);

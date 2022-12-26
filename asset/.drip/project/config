@@ -1,18 +1,21 @@
-" Interval before each update.
+" Minimum time interval which ignores a serails of same file update.
 interval: 5000(ms)
 
-" Interval before each update.
-min-mem: 500(mb)
+" Stop add new task when current memory less than minimum memory.
+min-mem: 100(mb)
 
-" Interval before each update.
+" Increase or decrease core number which base recommended value.
 adjust-core: 0(core)
 
-" Interval before each update.
+" File or path which will ignores by file watch.
 ignores:
   - .drip/local/
   - .git/
   - .gitkeep
 
-" Interval before each update.
+" Alias and address of package which will be installed in this project.
 packages:
   - [shell](/tmp/drip-package-shell-static/.git/)
+
+" Level of instance index which affect both index time and index effect.
+index-level: 2(rank)

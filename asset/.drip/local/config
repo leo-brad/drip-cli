@@ -19,4 +19,3 @@ packages:
 
 " Level of instance index which affect both index time and index effect.
 index-level: 2(rank)
-

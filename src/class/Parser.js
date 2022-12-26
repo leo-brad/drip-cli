@@ -44,6 +44,24 @@ class Parser {
     this.cp = cp;
   }
 
+  removeCommentAndEnter() {
+    let ans = true;
+    const char = this.s.glanceChar();
+    switch (char) {
+      case '"':
+        this.matchComment();
+        break;
+      case "\n":
+        this.matchOneChar('\n');
+        break;
+      default:
+        ans = false;
+        break;
+    }
+    return ans;
+  }
+
+
   matchOneChar(c) {
     matchChar(this.s.nextChar(), c);
   }
@@ -164,69 +182,20 @@ class Parser {
     return name;
   }
 
-  parseArray(obj, isLast, check) {
-    const n = this.parseNames();
-    this.matchOneChar(':');
-    this.matchOneChar('\n')
-    switch (n) {
-      case 'ignores':
-      case 'packages':
-        obj[n] = this.parseList(isLast, check);
-        break;
-    }
-  }
-
-  parseValue(obj) {
-    const n = this.parseNames();
-    this.matchOneChar(':');
-    this.matchOneChar(' ')
-    switch (n) {
-      case 'interval':
-      case 'minMem':
-      case 'adjustCore':
-      case 'indexLevel':
-        obj[n] = this.parseInt();
-        if (Number.isNaN(obj[n])) {
-          throw Error('integer parsing exception.');
-        }
-        this.matchStringEndWith('\n');
-        break;
-    }
-  }
-
-  parseSingleList(obj, isLast, check) {
-    this.matchComment();
-    this.parseArray(obj, isLast, check);
-    if (isLast === true) {
-      try {
-        this.matchOneChar('\n');
-      } catch (e) {
-      }
-    } else {
-      this.matchOneChar('\n');
-    }
-  }
-
-  parseSingleValue(obj) {
-    this.matchComment();
-    this.parseValue(obj);
-    this.matchOneChar('\n');
-    this.matchOneChar('\n');
-  }
-
-  parseList(isLast, check) {
+  parseList(check) {
     const ans = [];
     while (true) {
       const c =  this.s.glanceChar();
-      if (c.length === 0 || c === '\n') {
+      if (c === '' || c === '\n') {
         break;
       }
-      ans.push(this.parseItem(isLast, check));
+      ans.push(this.parseItem(check));
+      this.matchOneChar('\n');
     }
     return ans;
   }
 
-  parseItem(isLast, check) {
+  parseItem(check) {
     this.matchOneCharMultiply(' ', 2);
     this.matchOneChar('-');
     this.matchOneChar(' ');
@@ -234,27 +203,54 @@ class Parser {
     if (typeof check === 'function') {
       check(item);
     }
-    if (isLast === true) {
-      try {
-        this.matchOneChar('\n');
-      } catch (e) {
-      }
-    } else {
-      this.matchOneChar('\n');
-    }
     return item;
   }
 
-  // @TODO remove comment
+  parseValue(obj) {
+    const n = this.parseNames();
+    switch (n) {
+      case 'ignores':
+        this.matchOneChar(':');
+        this.matchOneChar('\n')
+        obj[n] = this.parseList();
+        break;
+      case 'packages':
+        this.matchOneChar(':');
+        this.matchOneChar('\n')
+        obj[n] = this.parseList(checkPackage);
+        break;
+      case 'interval':
+      case 'minMem':
+      case 'adjustCore':
+      case 'indexLevel':
+        this.matchOneChar(':');
+        this.matchOneChar(' ')
+        obj[n] = this.parseInt();
+        if (Number.isNaN(obj[n])) {
+          throw Error('integer parsing exception.');
+        }
+        this.matchStringEndWith('\n');
+        break;
+      default:
+        break;
+    }
+  }
+
   parse() {
     const ans = {};
     try {
-      this.parseSingleValue(ans);
-      this.parseSingleValue(ans);
-      this.parseSingleValue(ans);
-      this.parseSingleList(ans);
-      this.parseSingleList(ans, true, checkPackage);
-      this.parseSingleValue(ans);
+      while (true) {
+        while (true) {
+          if (this.removeCommentAndEnter() === false) {
+            break;
+          }
+        }
+        if (this.s.glanceChar() === '') {
+          break;
+        } else {
+          this.parseValue(ans);
+        }
+      }
     } catch (e) {
       this.showError(e);
       process.exit(0);

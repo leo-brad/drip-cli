@@ -1,4 +1,3 @@
-import fs from 'fs';
 import Parser from '~/class/Parser';
 import Scaner from '~/class/Scaner';
 

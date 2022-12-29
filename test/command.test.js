@@ -1,5 +1,6 @@
 import { execSync, } from 'child_process';
 import path from 'path';
+import { describe, expect, test, } from '@jest/globals';
 
 function buildStatic(project, operates, paths, shells) {
   let srcPath;
@@ -52,6 +53,7 @@ test('main process', () => {
   shells.push('nvm use v19.3.0');
   shells.push('drip init -y');
   shells.push('drip install');
-  shells.push('echo \'ls /fasdfsadf\' > .drip/local/instance/[shell]:shell1');
+  shells.push('echo \'ls / \' > .drip/local/instance/[shell]:shell1');
+  shells.push('echo \'ls /fasdfsadf \' > .drip/local/instance/[shell]:shell2');
   execSync(shells.join('&&'));
 });

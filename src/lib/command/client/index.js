@@ -1,9 +1,9 @@
-import add from './add';
+import help from './help';
 
-export default function pkg(...param) {
+export default function client(...param) {
   const [one, ...rest] = param;
   switch (one) {
-    case 'add':
+    case 'help':
       add(...rest);
       break;
     default:

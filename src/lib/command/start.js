@@ -1,8 +1,5 @@
 import { spawn, } from 'child_process';
 import path from 'path';
-import fs from 'fs';
-import Parser from '~/class/Parser';
-import Scaner from '~/class/Scaner';
 import getConfig from '~/lib/util/getConfig';
 
 export default function start(...param) {

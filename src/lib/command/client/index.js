@@ -1,4 +1,5 @@
 import help from './help';
+import main from './main';
 
 export default function client(...param) {
   const [one, ...rest] = param;
@@ -7,6 +8,7 @@ export default function client(...param) {
       add(...rest);
       break;
     default:
+      main();
       break;
   }
 }

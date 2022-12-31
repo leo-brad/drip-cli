@@ -19,6 +19,8 @@ function confirmInstall() {
     { recursive: true, },
   );
   execSync('git clone /tmp/drip-local-static/.git .drip/local/drip-local');
+  execSync('git clone /tmp/drip-client-static/.git .drip/local/drip-client');
+  execSync('git clone /tmp/drip-server-static/.git .drip/local/drip-server');
   console.log('Drip install on ' + process.cwd() + '...');
 }
 

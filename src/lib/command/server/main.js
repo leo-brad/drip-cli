@@ -7,6 +7,8 @@ export default function main() {
   const cwd = process.cwd();
   process.chdir(path.resolve('.drip/local/drip-server/'));
   spawn(
-    'node', ['dist/index.js', JSON.stringify(config), cwd],
+    'node',
+    ['dist/index.js', JSON.stringify(config), cwd],
+    { stdio: 'inherit' },
   );
 }

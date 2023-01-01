@@ -208,31 +208,25 @@ class Parser {
 
   parseValue(obj) {
     const n = this.parseNames();
-    switch (n) {
-      case 'ignores':
-        this.matchOneChar(':');
-        this.matchOneChar('\n')
-        obj[n] = this.parseList();
-        break;
-      case 'packages':
-        this.matchOneChar(':');
-        this.matchOneChar('\n')
-        obj[n] = this.parseList(checkPackage);
-        break;
-      case 'interval':
-      case 'minMem':
-      case 'adjustCore':
-      case 'indexLevel':
-        this.matchOneChar(':');
-        this.matchOneChar(' ')
-        obj[n] = this.parseInt();
-        if (Number.isNaN(obj[n])) {
-          throw Error('integer parsing exception.');
-        }
-        this.matchStringEndWith('\n');
-        break;
-      default:
-        break;
+    if (n.charAt(n.length - 1) === 's') {
+      this.matchOneChar(':');
+      this.matchOneChar('\n')
+      switch (n) {
+        case 'packages':
+          obj[n] = this.parseList(checkPackage);
+          break;
+        default:
+          obj[n] = this.parseList();
+          break;
+      }
+    } else {
+      this.matchOneChar(':');
+      this.matchOneChar(' ')
+      obj[n] = this.parseInt();
+      if (Number.isNaN(obj[n])) {
+        throw Error('integer parsing exception.');
+      }
+      this.matchStringEndWith('\n');
     }
   }
 

@@ -8,7 +8,8 @@ export default function start(...param) {
   const cwd = process.cwd();
   process.chdir(path.resolve('.drip/local/drip-local/'));
   spawn(
-    'npx', ['electron', 'dist/main.js', JSON.stringify(config), cwd],
+    'npx',
+    ['electron', 'dist/main.js', JSON.stringify(config), cwd],
     { detached: true, },
   );
 }

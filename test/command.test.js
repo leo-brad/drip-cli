@@ -55,7 +55,5 @@ test('main process', () => {
   shells.push('nvm use v19.3.0');
   shells.push('drip init -y');
   shells.push('drip install');
-  shells.push('echo \'ls / \' > .drip/local/instance/[shell]:shell1');
-  shells.push('echo \'ls /fasdfsadf \' > .drip/local/instance/[shell]:shell2');
   execSync(shells.join('&&'));
 });

@@ -7,6 +7,7 @@ const project = parseConfig('./asset/.drip/project/config');
 const config = { ...local, ...project, };
 process.chdir('/tmp/example/.drip/local/drip-local/');
 spawn(
-  'npx', ['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
+  'npx',
+  ['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
   { detached: true, },
 );

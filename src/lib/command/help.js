@@ -20,10 +20,11 @@ export default function help(...param) {
     '                                ',
     '    - init                      ',
     '    - start                     ',
-    '    - package                   ',
+    '    - client                    ',,
+    '    - server                    ',
     '                                ',
     '  Run ' + chalk.bold('`drip help [command]`') + ' for more information on specific commands.',
-    '  Visit ' +  chalk.bold('https://doc.driptool.com/') + ' to learn more about Drip.',
+    '  Visit ' +  chalk.bold('https://driptool.org/doc') + ' to learn more about Drip.',
     '',
   ].join('\n'));
 }

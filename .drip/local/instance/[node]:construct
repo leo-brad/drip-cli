@@ -39,7 +39,6 @@ async function constructDrip() {
   shells.push('node ./dist/bin/install.js');
   shells.push('rm -rf /tmp/example');
   shells.push('mkdir /tmp/example');
-  console.log(shells.join('&&'));
   await execScript(shells.join('&&'));
 }
 
@@ -55,6 +54,7 @@ async function execScript(script) {
       }
     }
   });
+  console.log(script);
 }
 
 async function main() {

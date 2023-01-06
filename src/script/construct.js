@@ -1,6 +1,4 @@
-import { execSync, } from 'child_process';
-import path from 'path';
-import { describe, expect, test, } from '@jest/globals';
+const { exec, } = child_process;
 
 function buildStatic(project, operates, paths, shells) {
   let srcPath;
@@ -14,10 +12,8 @@ function buildStatic(project, operates, paths, shells) {
   }
   const cwd = process.cwd();
   const staticPath = path.join('/', 'tmp', project + '-static');
+  console.log('[Build] ' + staticPath);
   shells.push('cd ' + srcPath);
-  operates.forEach((p) => {
-    shells.push('yarn run ' + p);
-  });
   shells.push('rm -rf ' + staticPath);
   shells.push('mkdir ' + staticPath);
   process.chdir(cwd);
@@ -33,9 +29,8 @@ function buildStatic(project, operates, paths, shells) {
   shells.push('cd ' + cwd)
 }
 
-beforeAll(() => {
+async function constructDrip() {
   const shells = [];
-  shells.push('rm -rf $HOME/.drip/');
   buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules'], shells);
   buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
   buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
@@ -44,16 +39,27 @@ beforeAll(() => {
   shells.push('node ./dist/bin/install.js');
   shells.push('rm -rf /tmp/example');
   shells.push('mkdir /tmp/example');
-  execSync(shells.join('&&'));
-});
+  console.log(shells.join('&&'));
+  await execScript(shells.join('&&'));
+}
 
-test('main process', () => {
-  const shells = [];
-  shells.push('cd /tmp/example/');
-  shells.push('unset PREFIX');
-  shells.push('. ~/.nvm/nvm.sh');
-  shells.push('nvm use v19.3.0');
-  shells.push('drip init -y');
-  shells.push('drip install');
-  execSync(shells.join('&&'));
-});
+async function execScript(script) {
+  exec(script, { maxBuffer: 10240 * 1024, }, (error, stdout, stderr) => {
+    if (error) {
+      throw error;
+    } else {
+      if (stdout) {
+        console.log(stdout);
+      } else {
+        console.error(stderr);
+      }
+    }
+  });
+}
+
+async function main() {
+  await constructDrip();
+  console.log('finish...');
+}
+
+main();

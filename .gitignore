@@ -127,4 +127,4 @@ dist
 .pnp.*
 
 # drip
-.drip/local/
+.drip/local/**/*

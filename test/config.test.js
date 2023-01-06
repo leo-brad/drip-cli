@@ -9,7 +9,6 @@ describe('[Config] local', () => {
     const string = fs.readFileSync(cp).toString();
     const scaner = new Scaner(string);
     const parser = new Parser(scaner, cp);
-    console.log();
-    //expect(parser.parse()).toBe('{"adjustCore": 0, "ignores": [".drip/local/", ".git/", ".gitkeep"], "indexLevel": 2, "interval": 5000, "minMem": 100, "packages": ["[node](/tmp/drip-package-node-static/.git/)"]}');
+    expect(JSON.stringify(parser.parse())).toMatch('{\"interval\":5000,\"minMem\":100,\"adjustCore\":0,\"ignores\":[\".drip/local/\",\".git/\",\".gitkeep\"],\"packages\":[\"[node](/tmp/drip-package-node-static/.git/)\"],\"indexLevel\":2}');
   });
 });

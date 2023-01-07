@@ -1,3 +1,7 @@
+const child_process = require('child_process');
+const path = require('path');
+const fs = require('fs');
+
 function buildStatic(project, operates, paths, shells) {
   let srcPath;
   switch (project) {
@@ -12,8 +16,11 @@ function buildStatic(project, operates, paths, shells) {
   const staticPath = path.join('/', 'tmp', project + '-static');
   console.log('[Build] ' + staticPath);
   shells.push('cd ' + srcPath);
-  operates.forEach((p) => {
-  });
+  //operates.forEach((p) => {
+    //const json = fs.readFileSync(path.join(srcPath, 'package.json')).toString();
+    //const shell = JSON.parse(json).scripts[p];
+    //shells.push(shell);
+  //});
   shells.push('rm -rf ' + staticPath);
   shells.push('mkdir ' + staticPath);
   process.chdir(cwd);
@@ -45,7 +52,7 @@ async function constructDrip() {
 async function execScript(script) {
   child_process.exec(script, { maxBuffer: 10240 * 1024, }, (error, stdout, stderr) => {
     if (error) {
-      throw error;
+      console.error(error);
     } else {
       if (stdout) {
         console.log(stdout);
@@ -53,13 +60,30 @@ async function execScript(script) {
         console.error(stderr);
       }
     }
-    console.log(script);
   });
+  //new Promise((resolve, reject) => {
+    //console.log(script);
+    //child_process.exec(script, { maxBuffer: 10240 * 1024, }, (error, stdout, stderr) => {
+      //if (error) {
+        //console.error(error);
+        //reject(error);
+      //} else {
+        //if (stdout) {
+          //console.log(stdout);
+        //} else {
+          //console.error(stderr);
+        //}
+        //resolve();
+      //}
+    //});
+  //});
 }
 
 async function main() {
-  await constructDrip();
-  console.log('finish...');
+  await execScript('ls /');
+  //await constructDrip();
+  //console.log('finish...');
+  process.exit(0);
 }
 
 main();

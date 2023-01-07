@@ -1,5 +1,3 @@
-const { exec, } = child_process;
-
 function buildStatic(project, operates, paths, shells) {
   let srcPath;
   switch (project) {
@@ -45,7 +43,7 @@ async function constructDrip() {
 }
 
 async function execScript(script) {
-  exec(script, { maxBuffer: 10240 * 1024, }, (error, stdout, stderr) => {
+  child_process.exec(script, { maxBuffer: 10240 * 1024, }, (error, stdout, stderr) => {
     if (error) {
       throw error;
     } else {

@@ -14,6 +14,8 @@ function buildStatic(project, operates, paths, shells) {
   const staticPath = path.join('/', 'tmp', project + '-static');
   console.log('[Build] ' + staticPath);
   shells.push('cd ' + srcPath);
+  operates.forEach((p) => {
+  });
   shells.push('rm -rf ' + staticPath);
   shells.push('mkdir ' + staticPath);
   process.chdir(cwd);
@@ -53,8 +55,8 @@ async function execScript(script) {
         console.error(stderr);
       }
     }
+    console.log(script);
   });
-  console.log(script);
 }
 
 async function main() {

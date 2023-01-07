@@ -8,7 +8,7 @@ export default function server(...param) {
       help(...rest);
       break;
     default:
-      main();
+      main(...rest);
       break;
   }
 }

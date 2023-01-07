@@ -8,7 +8,7 @@ export default function client(...param) {
       add(...rest);
       break;
     default:
-      main();
+      main(...rest);
       break;
   }
 }

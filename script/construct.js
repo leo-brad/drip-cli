@@ -1,7 +1,6 @@
 const cwd = process.cwd();
 
-function buildStatic(project, operates, paths) {
-  const shells = [];
+function buildStatic(project, operates, paths, shells) {
   let srcPath;
   switch (project) {
     case 'drip-cli':
@@ -33,31 +32,25 @@ function buildStatic(project, operates, paths) {
   execScript(shells.join('&&'));
 }
 
-function makeExample() {
-  const shells = [];
-  shells.push('node ./dist/bin/install.js');
-  shells.push('rm -rf /tmp/example');
-  shells.push('mkdir /tmp/example');
-  execScript(shells.join('&&'));
-}
-
 function constructDrip() {
   //buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules']);
   buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules']);
   buildStatic('drip-package-node', ['build', 'pro'], ['dist']);
   buildStatic('drip-server', ['build'], ['dist', 'node_modules']);
   buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules']);
+  shells.push('node ./dist/bin/install.js');
+  shells.push('rm -rf /tmp/example');
+  shells.push('mkdir /tmp/example');
+  execScript(shells.join('&&'));
 }
 
 function execScript(script) {
   console.log(script);
   child_process.execSync(script);
-  console.log('finish');
 }
 
 function main() {
   constructDrip();
-  makeExample();
   console.log('finish...');
 }
 

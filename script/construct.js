@@ -46,7 +46,7 @@ function constructDrip() {
 
 function execScript(script) {
   console.log(script);
-  child_process.execSync(script);
+  child_process.execSync(script, { stdio: 'inherit', });
 }
 
 function main() {

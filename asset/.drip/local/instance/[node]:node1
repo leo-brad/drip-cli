@@ -1,13 +1,1 @@
-const { exec, } = child_process;
-
-exec('ls /', { maxBuffer: 10240 * 1024, }, (error, stdout, stderr) => {
-  if (error) {
-    throw error;
-  } else {
-    if (stdout) {
-      console.log(stdout);
-    } else {
-      console.error(stderr);
-    }
-  }
-});
+child_process.execSync('ls /', { stdio: 'inherit', });

@@ -2,6 +2,7 @@ import chalk from 'chalk';
 
 export default function commandTip(name, options) {
   const lines = [
+    '',
     '[' + chalk.bold('Drip ' + name) + ']' + chalk.bold(' command line tip') + ':',
     '',
   ];

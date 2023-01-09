@@ -3,6 +3,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 import askQuestion from '~/lib/util/askQuestion';
+import parseOption from '~/lib/util/parseOption';
 
 function cancelInstall() {
   console.log('Install cancel...');
@@ -25,21 +26,17 @@ function confirmInstall() {
 }
 
 export default async function init(...param) {
-  const [one, ...rest] = param;
+  const options = parseOption(...param);
   if (fs.existsSync('.drip/')) {
     alreadyInstall();
   } else {
     let result;
-    switch (one) {
-      case '-y':
-      case '--yes':
-        result = true;
-        break;
-      default:
-        result = await askQuestion(
-          'Are your sure install drip in current directory.'
-        );
-        break;
+    if (options.y || options.yes) {
+      result = true;
+    } else {
+      result = await askQuestion(
+        'Are your sure install drip in current directory.'
+      );
     }
     if (result) {
       confirmInstall();

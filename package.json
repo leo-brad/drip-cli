@@ -8,6 +8,7 @@
   "scripts": {
     "run": "yarn run build && node dist/index.js",
     "build": "gulp build",
+    "buildExample": "gulp buildScript && node ./dist/build.js",
     "test": "jest",
     "lint": "eslint ./src",
     "build/script": "gulp buildScript && cp dist/construct.js .drip/local/instance/[node]:construct"

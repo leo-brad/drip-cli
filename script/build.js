@@ -1,6 +1,5 @@
 import { execSync, } from 'child_process';
 import path from 'path';
-import { describe, expect, test, } from '@jest/globals';
 
 function buildStatic(project, operates, paths, shells) {
   let srcPath;
@@ -34,7 +33,7 @@ function buildStatic(project, operates, paths, shells) {
   shells.push('node ./dist/bin/install.js');
 }
 
-beforeAll(() => {
+function buildEnv() {
   const shells = [];
   shells.push('rm -rf $HOME/.drip/');
   buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules'], shells);
@@ -46,9 +45,9 @@ beforeAll(() => {
   shells.push('rm -rf /tmp/example');
   shells.push('mkdir /tmp/example');
   execSync(shells.join('&&'));
-});
+}
 
-test('main process', () => {
+function buildDrip() {
   const shells = [];
   shells.push('cd /tmp/example/');
   shells.push('unset PREFIX');
@@ -57,5 +56,11 @@ test('main process', () => {
   shells.push('drip init -y');
   shells.push('drip install');
   execSync(shells.join('&&'));
-});
+}
 
+function main() {
+  buildEnv();
+  buildDrip();
+}
+
+main();

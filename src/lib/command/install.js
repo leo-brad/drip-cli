@@ -10,10 +10,22 @@ import {
 export default function install(...param) {
   const [one, ...rest] = param;
   const { packages, } = getConfig();
-  diffAddPackage(packages).forEach((pkg) => {
-    installPackage(pkg);
+  const plus = diffPlusPackage(packages);
+  const h1 = {};
+  plus.forEach((pkg) => {
+    h1[pkg] = true;
   });
-  diffPlusPackage(packages).forEach((pkg) => {
-    rmPackage(pkg);
+  const h2 = {};
+  diffAddPackage(packages).forEach((pkg) => {
+    if (!h1[pkg]) {
+      installPackage(pkg);
+    } else {
+      h2[pkg] = true;
+    }
+  });
+  plus.forEach((pkg) => {
+    if (!h2[pkg]) {
+      rmPackage(pkg);
+    }
   });
 }

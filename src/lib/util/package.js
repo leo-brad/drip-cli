@@ -12,9 +12,10 @@ export function diffAddPackage(pkgs) {
       hash[p] = true;
     });
   }
-  pkgs.forEach((p) => {
-    if (!hash[p]) {
-      ans.push(p);
+  pkgs.forEach((pkg) => {
+    const [_, name] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)$/);
+    if (!hash[name]) {
+      ans.push(pkg);
     }
   });
   return ans;
@@ -24,8 +25,9 @@ export function diffPlusPackage(pkgs) {
   const ans = [];
   const packagesPath = path.join('.drip', 'local', 'package');
   const hash = {};
-  pkgs.forEach((p) => {
-    hash[p] = true;
+  pkgs.forEach((pkg) => {
+    const [_, name] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)$/);
+    hash[name] = true;
   });
   if (fs.existsSync(packagesPath)) {
     fs.readdirSync(packagesPath).forEach((p) => {
@@ -37,7 +39,6 @@ export function diffPlusPackage(pkgs) {
   return ans;
 }
 
-
 export function rmPackage(pkg) {
   const packagePath = path.join('.drip', 'local', 'package', pkg);
   if (fs.existsSync(packagePath)) {
@@ -46,19 +47,33 @@ export function rmPackage(pkg) {
   }
 }
 
+function clonePackage(location, url) {
+  try {
+    execSync(
+      'git clone ' + url + ' ' + location,
+    );
+  } catch (e) {
+    console.error(chalk.bold('Execution `git clone` fail; please check package address.'));
+  }
+}
+
+function installPackageCrossLocal(name, url) {
+  const local = path.join(process.env.HOME, '.drip', 'package', name);
+  if (!fs.existsSync(local)) {
+    clonePackage(local, url);
+  }
+  fs.cpSync(local, path.join('.drip/local/package', name) + '/', {
+    recursive: true,
+  });
+}
+
 export function installPackage(pkg) {
   const [_, name, url] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)$/);
   const packagePath = path.join('.drip', 'local', 'package', name);
   if (!fs.existsSync(packagePath)) {
-    try {
-      execSync(
-        'git clone ' + url + ' ' + '.drip/local/package/' + name + '/',
-      );
-    } catch (e) {
-      console.error(chalk.bold('Execution `git clone` fail; please check package address.'));
-    }
-    console.log('Package ' + '\'' + pkg + '\'' + ' install successful...');
+    installPackageCrossLocal(name, url);
+    console.log('Package ' + '\'' + name + '\'' + ' install successful...');
   } else {
-    console.error('Package ' + '\'' + pkg + '\'' + ' already installed...');
+    console.error('Package ' + '\'' + name + '\'' + ' already installed...');
   }
 }

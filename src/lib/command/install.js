@@ -19,9 +19,8 @@ export default function install(...param) {
   diffAddPackage(packages).forEach((pkg) => {
     if (!h1[pkg]) {
       installPackage(pkg);
-    } else {
-      h2[pkg] = true;
     }
+    h2[pkg] = true;
   });
   plus.forEach((pkg) => {
     if (!h2[pkg]) {

@@ -10,6 +10,7 @@ import {
 export default function install(...param) {
   const [one, ...rest] = param;
   const { packages, } = getConfig();
+  let count = 0;
   const plus = diffPlusPackage(packages);
   const h1 = {};
   plus.forEach((pkg) => {
@@ -19,12 +20,17 @@ export default function install(...param) {
   diffAddPackage(packages).forEach((pkg) => {
     if (!h1[pkg]) {
       installPackage(pkg);
+      count += 1;
     }
     h2[pkg] = true;
   });
   plus.forEach((pkg) => {
     if (!h2[pkg]) {
       rmPackage(pkg);
+      count += 1;
     }
   });
+  if (count === 0) {
+    console.log('Nothing change...');
+  }
 }

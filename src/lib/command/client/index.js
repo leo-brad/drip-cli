@@ -5,7 +5,7 @@ export default function client(...param) {
   const [one, ...rest] = param;
   switch (one) {
     case '--help':
-      add(...rest);
+      help(...rest);
       break;
     default:
       main(...rest);

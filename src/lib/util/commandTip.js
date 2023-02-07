@@ -1,14 +1,14 @@
 import chalk from 'chalk';
 
-export default function commandTip(name, options) {
+export default function commandTip(name, fun, options) {
   const lines = [
     '',
-    '[' + chalk.bold('Drip ' + name) + ']' + chalk.bold(' command line tip') + ':',
+    chalk.bold('Drip ' + name) + ' ' + fun,
     '',
   ];
   options.forEach((p) => {
     const [simple, complex, tip] = p;
-    lines.push('  -' + chalk.bold(simple) + ', --' + chalk.bold(complex) + '  ' + tip);
+    lines.push('  | -' + chalk.bold(simple) + ', --' + chalk.bold(complex) + '  ' + tip);
   });
   lines.push('');
   console.log(lines.join('\n'));

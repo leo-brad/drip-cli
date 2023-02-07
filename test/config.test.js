@@ -9,6 +9,6 @@ describe('[Config] local', () => {
     const string = fs.readFileSync(cp).toString();
     const scaner = new Scaner(string);
     const parser = new Parser(scaner, cp);
-    expect(JSON.stringify(parser.parse())).toMatch('{\"interval\":5000,\"minMem\":100,\"adjustCore\":0,\"ignores\":[\".drip/local/\",\".git/\",\".gitkeep\"],\"packages\":[\"[node](/tmp/drip-package-node-static/.git/)\"],\"indexLevel\":2}');
+    expect(JSON.stringify(parser.parse())).toMatch('{\"interval\":5000,\"minMem\":100,\"adjustCore\":0,\"ignores\":[\".drip/local/\",\".git/\",\".gitkeep\"],\"packages\":[\"[node](/tmp/drip-package-node-static/.git/) v1.0.0\"],\"indexLevel\":2}');
   });
 });

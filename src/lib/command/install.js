@@ -7,7 +7,7 @@ import {
   diffPlusPackage,
 } from '~/lib/util/package';
 
-export default function install(...param) {
+export default async function install(...param) {
   const [one, ...rest] = param;
   const { packages, } = getConfig();
   let count = 0;
@@ -17,9 +17,9 @@ export default function install(...param) {
     h1[pkg] = true;
   });
   const h2 = {};
-  diffAddPackage(packages).forEach((pkg) => {
+  diffAddPackage(packages).forEach(async (pkg) => {
     if (!h1[pkg]) {
-      installPackage(pkg);
+      await installPackage(pkg);
       count += 1;
     }
     h2[pkg] = true;

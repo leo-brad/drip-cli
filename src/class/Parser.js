@@ -12,7 +12,7 @@ function showTip(message) {
 }
 
 function checkPackage(s) {
-  if (!/^\[\w+\]\([\w\-\.\/\:]+\)$/.test(s)) {
+  if (!/^\[\w+\]\([\w\-\.\/\:]+\) (.*)$/.test(s)) {
     throw Error('package parsing exception.');
   }
 }

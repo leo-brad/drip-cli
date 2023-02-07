@@ -1,21 +1,10 @@
 import { execSync, } from 'child_process';
 import chalk from 'chalk';
-
-function getVersions(v) {
-  return v.substring(1, v.length).split('.');
-}
+import compareVersion from '~/lib/util/compareVersion';
 
 function greaterOrEqualVersion(v1, v2) {
-  const versions1 = getVersions(v1);
-  const versions2 = getVersions(v2);
-  let ans = true;
-  for (let i = 0; i < versions1.length; i += 1) {
-    if (parseInt(versions1[i]) < parseInt(versions2[i])) {
-      ans = false;
-      break;
-    }
-  }
-  return ans;
+  const result = compareVersion(v1, v2, (sv1, sv2) => sv1 >= sv2);
+  return !result.some((flag) => !flag);
 }
 
 const v = execSync('node -v').toString();

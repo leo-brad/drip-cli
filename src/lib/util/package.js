@@ -1,7 +1,11 @@
 import { execSync, } from 'child_process';
+import net from 'net';
 import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
+import getSocketResponse from '~/lib/util/getSocketResponse';
+import compareVersion from '~/lib/util/compareVersion';
+import getLatestVersion from '~/lib/util/getLatestVersion';
 
 export function diffAddPackage(pkgs) {
   const ans = [];
@@ -57,23 +61,33 @@ function clonePackage(location, url) {
   }
 }
 
-function installPackageCrossLocal(name, url) {
+function getPackageLatestVersion(pkg, local) {
+  process.chdir(local);
+  return getLatestVersion();
+}
+
+async function installPackageCrossLocal(name, url) {
   const local = path.join(process.env.HOME, '.drip', 'package', name);
-  if (!fs.existsSync(local)) {
-    clonePackage(local, url);
+  const latestVersion = await getSocketResponse([1, name]);
+  const result = compareVersion(
+    getPackageLatestVersion(pkg, local), lastestVersion, (v1, v2) => v1 >= v2
+  );
+  if (!result.some(flag) => flag) {
+    const latest = await getSocketResponse([2, name], local);
   }
   fs.cpSync(local, path.join('.drip/local/package', name) + '/', {
     recursive: true,
   });
 }
 
-export function installPackage(pkg) {
+export async function installPackage(pkg) {
   const [_, name, url] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)$/);
   const packagePath = path.join('.drip', 'local', 'package', name);
   if (!fs.existsSync(packagePath)) {
-    installPackageCrossLocal(name, url);
+    clonePackage();
     console.log('Package ' + '\'' + name + '\'' + ' install successful...');
   } else {
-    console.error('Package ' + '\'' + name + '\'' + ' already installed...');
+    await installPackageCrossLocal(name, url);
+    console.error('Package ' + '\'' + name + '\'' + ' update installed...');
   }
 }

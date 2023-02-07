@@ -20,7 +20,7 @@ async function main() {
       pkg(...rest);
       break;
     case 'install':
-      install(...rest);
+      await install(...rest);
       break;
     case 'client':
       client(...rest);

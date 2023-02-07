@@ -1,3 +1,3 @@
-//export default function upload(...param) {
-  //const [one, ...rest] = param;
-//}
+export default function cleanup(...param) {
+  const [one, ...rest] = param;
+}

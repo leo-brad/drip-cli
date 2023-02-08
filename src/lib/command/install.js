@@ -2,14 +2,17 @@ import path from 'path';
 import getConfig from '~/lib/util/getConfig';
 import {
   rmPackage,
-  installPackage,
   diffAddPackage,
   diffPlusPackage,
 } from '~/lib/util/package';
+import installPackage from '~/lib/util/installPackage';
+import getVersionHash from '~/lib/util/getVersionHash';
+import global from '~/obj/global';
 
 export default async function install(...param) {
   const [one, ...rest] = param;
-  const { packages, } = getConfig();
+  const { packages, packageFileServer,  } = getConfig();
+  global.location = packageFileServer;
   let count = 0;
   const plus = diffPlusPackage(packages);
   const h1 = {};

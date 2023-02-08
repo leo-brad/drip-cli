@@ -12,7 +12,7 @@ function showTip(message) {
 }
 
 function checkPackage(s) {
-  if (!/^\[\w+\]\([\w\-\.\/\:]+\) (.*)$/.test(s)) {
+  if (!/^\[\w+\]\([\w\-\.\/\:]+\)(.*)$/.test(s)) {
     throw Error('package parsing exception.');
   }
 }
@@ -222,7 +222,14 @@ class Parser {
     } else {
       this.matchOneChar(':');
       this.matchOneChar(' ')
-      obj[n] = this.parseInt();
+      switch (n) {
+        case 'packageFileServer':
+          obj[n] = this.parseStringEndWith('\n');
+          break;
+        default:
+          obj[n] = this.parseInt();
+          break;
+      }
       if (Number.isNaN(obj[n])) {
         throw Error('integer parsing exception.');
       }

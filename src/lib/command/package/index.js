@@ -1,11 +1,8 @@
-export default function package(...param) {
+export default function pkg(...param) {
   const [one, ...rest] = param;
   switch (one) {
     case '--help':
-      add(...rest);
-      break;
-    case 'cleanup':
-      cleanup(...rest);
+      help();
       break;
   }
 }

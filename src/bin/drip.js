@@ -5,6 +5,8 @@ import start from '~/lib/command/start';
 import install from '~/lib/command/install';
 import client from '~/lib/command/client';
 import server from '~/lib/command/server';
+import cleanup from '~/lib/command/cleanup';
+import upgrade from '~/lib/command/upgrade';
 
 const [_1, _2, one, ...rest] = process.argv;
 
@@ -27,6 +29,12 @@ async function main() {
       break;
     case 'server':
       server(...rest);
+      break;
+    case 'upgrade':
+      await upgrade(...rest);
+      break;
+    case 'cleanup':
+      cleanup(...rest);
       break;
     default:
       help(...rest);

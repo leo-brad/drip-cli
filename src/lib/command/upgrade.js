@@ -1,4 +1,5 @@
 import path from 'path';
+import Socket from '~/class/Socket';
 import installPackageFromPatch from '~/lib/util/installPackageFromPatch';
 import iteratorPackagePath from '~/lib/util/iteratorPackagePath';
 import getVersionHash from '~/lib/util/getVersionHash';

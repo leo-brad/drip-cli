@@ -3,10 +3,6 @@ import net from 'net';
 import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
-import Socket from '~/lib/util/Socket';
-import getConfig from '~/lib/util/getConfig';
-import compareVersion from '~/lib/util/compareVersion';
-import getLatestVersion from '~/lib/util/getLatestVersion';
 import iteratorPackagePath from '~/lib/util/iteratorPackagePath';
 
 export function diffAddPackage(pkgs) {

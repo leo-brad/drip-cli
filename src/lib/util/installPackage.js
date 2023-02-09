@@ -1,3 +1,4 @@
+import Socket from '~/class/Socket';
 import installPackageFromGit from '~/lib/util/installPackageFromGit';
 import installPackageFromPatch from '~/lib/util/installPackageFromPatch';
 

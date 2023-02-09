@@ -41,7 +41,7 @@ export function diffPlusPackage(pkgs) {
 export function rmPackage(pkg) {
   const packagePath = path.join('.drip', 'local', 'package', pkg);
   if (fs.existsSync(packagePath)) {
-    fs.rmdirSync(packagePath, { recursive: true });
+    fs.rmSync(packagePath, { recursive: true });
     console.log('Package ' + '\'' + pkg + '\'' + ' remove successful...');
   }
 }

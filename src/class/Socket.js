@@ -1,3 +1,4 @@
+import net from 'net';
 import global from '~/obj/global';
 
 class Socket {
@@ -6,12 +7,19 @@ class Socket {
     this.socket = net.connect(parseInt(port), ip);
   }
 
-  request(data) {
+  request(data, type) {
     const { socket, } = this;
-    socket.write(data);
+    socket.write(JSON.stringify(data));
     return new Promise((resolve, reject) => {
       socket.on('data', (data) => {
-        resolve(data.toString());
+        switch (type) {
+          case 'buffer':
+            resolve(data);
+            break;
+          default:
+            resolve(data.toString());
+            break;
+        }
       });
       socket.on('error', (error) => {
         reject(error);

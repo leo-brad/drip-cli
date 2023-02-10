@@ -1,36 +1,42 @@
 import path from 'path';
+import fs from 'fs';
 import Socket from '~/class/Socket';
+import getConfig from '~/lib/util/getConfig';
+import compareVersion from '~/lib/util/compareVersion';
+import getLatestVersion from '~/lib/util/getLatestVersion';
+import installPackage from '~/lib/util/installPackage';
 import installPackageFromPatch from '~/lib/util/installPackageFromPatch';
-import iteratorPackagePath from '~/lib/util/iteratorPackagePath';
-import getVersionHash from '~/lib/util/getVersionHash';
+import iteratorConfigPackage from '~/lib/util/iteratorConfigPackage';
+import global from '~/obj/global';
 
 async function upgradePackageCrossLocal(name, version, url) {
-  const local = path.join(process.env.HOME, '.drip', 'package', name);
+  const local = path.resolve('.drip', 'local', 'package', name);
   const socket = new Socket();
   const latest = await socket.request([0, name]);
   const result = compareVersion(
-    getPackageLatestVersion(pkg, local), lastestVersion, (v1, v2) => v1 >= v2
+    getLatestVersion(local), latest, (v1, v2) => v1 >= v2
   );
-
-  if (!result.some((flag) => flag)) {
-    const versionHash = getVersionHash();
-    const current =  versionHash[name];
-    const patch = await socket.request([1, name], name, latest, current);
-    installPackageFromPatch(patch, version);
+  if (result.some((flag) => !flag)) {
+    const current = getLatestVersion(local);
+    const patch = await socket.request([1, name, latest, current], 'buffer');
+    installPackageFromPatch(patch, latest, local);
+    console.error('Package ' + '\'' + name + '\'' + ' upgrade installed...');
   }
   socket.end();
 }
 
 export default async function upgrade(...param) {
-  iteratorPackagePath(async (p) => {
-    let [_, name, url, version] = pkg.match(/^\[\w+\]\([\w\-\.\/\:]+\)(.*)$/);
-    version = version.trim();
-    if (version === '') {
-      await upgradePackageCrossLocal(name, version, url);
-      if (!fs.existsSync(packagePath)) {
-        console.log('Package ' + '\'' + name + '\'' + ' install successful...');
-      } else {
-        console.error('Package ' + '\'' + name + '\'' + ' update installed...');
+  const { packageFileServer,  } = getConfig();
+  global.location = packageFileServer;
+  iteratorConfigPackage(async (pkg) => {
+    let [_, name, url, version] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)(.*)$/);
+    const pkgPath = path.resolve('.drip', 'local', 'package', name);
+    if (!fs.existsSync(pkgPath)) {
+      installPackage(pkg);
+    } else {
+      version = version.trim();
+      if (version === '') {
+        await upgradePackageCrossLocal(name, version, url);
       }
     }
   });

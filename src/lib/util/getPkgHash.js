@@ -2,7 +2,7 @@ import getConfig from '~/lib/util/getConfig';
 
 let hash;
 
-export default function getVersionHash() {
+export default function getPkgHash() {
   const config = getConfig();
   const {
     packages,
@@ -10,8 +10,7 @@ export default function getVersionHash() {
   if (hash === undefined) {
     hash = {};
     packages.forEach((p) => {
-      let [_, name, _1, version] = p.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)(.*)$/);
-      hash[name] = version;
+      hash[name] = p;
     });
   }
   return hash;

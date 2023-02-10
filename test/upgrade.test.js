@@ -3,7 +3,7 @@ import upgrade from '~/lib/command/upgrade';
 import fs from 'fs';
 import path from 'path';
 
-describe('[Command] install', () => {
+describe('[Command] upgrade', () => {
   test('package upgrade should parse correct.', async () => {
     process.chdir('/tmp/example/');
     await upgrade();

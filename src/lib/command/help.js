@@ -23,7 +23,7 @@ export default function help(...param) {
     '  - server Start drip server program.',
     '  - install Install drip packages.',
     '  - upgrade Upgrade drip packages.',
-    '  - cleanup Clean up drip packages local cache.',
+    '  - cleanup Clean up drip project packages local cache.',
     '',
     'Use `' + chalk.bold('drip commmand --help') + '` get each command more detail information.',
     'Website [' + chalk.bold('drip doc') + '](' + chalk.bold('https://driptool.com/doc') + ') provide related document. ',

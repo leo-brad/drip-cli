@@ -20,12 +20,22 @@ export default async function install(...param) {
     h1[pkg] = true;
   });
   const h2 = {};
-  diffAddPackage(packages).forEach(async (pkg) => {
-    if (!h1[pkg]) {
-      await installPackage(pkg);
-      count += 1;
+  await new Promise((resolve, reject) => {
+    const diffAdd = diffAddPackage(packages);
+    if (diffAdd.length > 0) {
+      diffAdd.forEach(async (pkg, i) => {
+        if (!h1[pkg]) {
+          await installPackage(pkg);
+          count += 1;
+        }
+        h2[pkg] = true;
+        if (i === packages.length - 1) {
+          resolve();
+        }
+      });
+    } else {
+      resolve();
     }
-    h2[pkg] = true;
   });
   plus.forEach((pkg) => {
     if (!h2[pkg]) {

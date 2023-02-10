@@ -19,8 +19,8 @@ async function upgradePackageCrossLocal(name, version, url) {
   if (result.some((flag) => !flag)) {
     const current = getLatestVersion(local);
     const patch = await socket.request([1, name, latest, current], 'buffer');
-    installPackageFromPatch(patch, latest, local);
-    console.error('Package ' + '\'' + name + '\'' + ' upgrade installed...');
+    installPackageFromPatch(patch, latest, name);
+    console.error('Package ' + '\'' + name + '\'' + ' upgrade...');
   }
   socket.end();
 }
@@ -28,11 +28,13 @@ async function upgradePackageCrossLocal(name, version, url) {
 export default async function upgrade(...param) {
   const { packageFileServer,  } = getConfig();
   global.location = packageFileServer;
+  let count = 0;
   iteratorConfigPackage(async (pkg) => {
     let [_, name, url, version] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)(.*)$/);
     const pkgPath = path.resolve('.drip', 'local', 'package', name);
     if (!fs.existsSync(pkgPath)) {
       installPackage(pkg);
+      count += 1;
     } else {
       version = version.trim();
       if (version === '') {
@@ -40,4 +42,7 @@ export default async function upgrade(...param) {
       }
     }
   });
+  if (count === 0) {
+    console.log('Every package to latest...');
+  }
 }

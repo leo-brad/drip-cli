@@ -29,7 +29,7 @@ export default async function upgrade(...param) {
   const { packageFileServer,  } = getConfig();
   global.location = packageFileServer;
   let count = 0;
-  iteratorConfigPackage(async (pkg) => {
+  await iteratorConfigPackage(async (pkg) => {
     let [_, name, url, version] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)(.*)$/);
     const pkgPath = path.resolve('.drip', 'local', 'package', name);
     if (!fs.existsSync(pkgPath)) {

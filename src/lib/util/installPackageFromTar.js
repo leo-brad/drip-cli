@@ -2,6 +2,7 @@ import { execSync, } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import getTagList from '~/lib/util/getTagList';
+import LocalNetDatabase from '~/class/LocalNetDatabase';
 
 export default function installPackageFromTar(tar, version, name) {
   let shells = [];
@@ -18,6 +19,7 @@ export default function installPackageFromTar(tar, version, name) {
   shells.push('git commit -m "' + version + '"');
   shells.push('git tag ' + version + ' master');
   execSync(shells.join('&&'));
+  new LocalNetDatabase().add(name, version);
   const pkgPath = path.resolve('.drip', 'local', 'package', name);
   if (fs.existsSync(pkgPath)) {
     fs.rmdirSync(pkgPath, { recursive: true, });

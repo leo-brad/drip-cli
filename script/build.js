@@ -37,10 +37,10 @@ function buildEnv() {
   const shells = [];
   shells.push('rm -rf $HOME/.drip/');
   buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db'], shells);
-  buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
-  buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
-  buildStatic('drip-server', ['build'], ['dist', 'node_modules'], shells);
-  buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules'], shells);
+  //buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
+  //buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
+  //buildStatic('drip-server', ['build'], ['dist', 'node_modules'], shells);
+  //buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules'], shells);
   shells.push('node ./dist/bin/install.js');
   shells.push('rm -rf /tmp/example');
   shells.push('mkdir /tmp/example');

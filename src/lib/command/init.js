@@ -17,7 +17,10 @@ function confirmInstall() {
   const dripDir = path.join(process.env.HOME, '.drip');
   fs.cpSync(
     path.join(dripDir, 'asset/.drip/'), '.drip/',
-    { recursive: true, },
+    {
+      recursive: true,
+      filter: (src) => !src.match(/\.gitkeep$/),
+    },
   );
   execSync('git clone /tmp/drip-local-static/.git .drip/local/drip-local');
   execSync('git clone /tmp/drip-client-static/.git .drip/local/drip-client');

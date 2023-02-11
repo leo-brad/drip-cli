@@ -1,10 +1,12 @@
 import getPkgHash from '~/lib/util/getPkgHash';
 import getConfig from '~/lib/util/getConfig';
 
-export default function iteratorConfigPackage(method) {
+export default async function iteratorConfigPackage(method, finish) {
   const config = getConfig();
   const {
     packages,
   } = config;
-  packages.forEach(method);
+  for (let i = 0; i < packages.length; i += 1) {
+    await method(packages[i]);
+  }
 }

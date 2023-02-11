@@ -36,6 +36,7 @@ export default function cleanup(...param) {
     }
     if (options.a || options.all) {
       cleanupLocal(pkgPath, localPath, version);
+      localNetDatabase.empty();
     } else {
       getTagList(localPath).forEach((v) => {
         localNetDatabase.plus(p, v);

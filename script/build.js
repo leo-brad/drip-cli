@@ -20,7 +20,7 @@ function buildStatic(project, operates, paths, shells) {
   shells.push('rm -rf ' + staticPath);
   shells.push('mkdir ' + staticPath);
   process.chdir(cwd);
-  paths.forEach((p) => {
+  paths.filter((p)).forEach((p) => {
     shells.push('cp -a -R ' + path.join(srcPath, p) + ' ' + staticPath);
   });
   shells.push('cd ' + staticPath);

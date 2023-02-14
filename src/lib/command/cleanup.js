@@ -7,6 +7,7 @@ import getVersionHash from '~/lib/util/getVersionHash';
 import getLatestVersion from '~/lib/util/getLatestVersion';
 import parseOption from '~/lib/util/parseOption';
 import getTagList from '~/lib/util/getTagList';
+import checkDependence from '~/lib/util/checkDependence';
 
 function cleanupLocal(pkgPath, localPath, version) {
   let shells = [];
@@ -23,6 +24,7 @@ function cleanupLocal(pkgPath, localPath, version) {
 }
 
 export default function cleanup(...param) {
+  checkDependence(['git']);
   const options = parseOption(...param);
   const packagePath = path.resolve('.drip', 'local', 'package');
   const versionHash = getVersionHash();

@@ -224,6 +224,7 @@ class Parser {
       this.matchOneChar(' ')
       switch (n) {
         case 'packageFileServer':
+        case 'staticFileServer':
           obj[n] = this.parseStringEndWith('\n');
           break;
         default:

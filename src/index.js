@@ -11,9 +11,7 @@
   //['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
   //{ detached: true, },
 //);
-import cleanup from '~/lib/command/cleanup';
+import init from '~/lib/command/init';
 
-//(async function main() {
 process.chdir('/tmp/example/');
-cleanup();
-//})();
+init();

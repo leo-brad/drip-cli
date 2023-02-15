@@ -1,9 +1,9 @@
 import fs from 'fs';
 
-export default function dynamicHelp(commandPath, help) {
-  let ans;
+export default function dynamicHelp(commandPath, helps) {
+  let ans = [undefined];
   if (fs.existsSync(commandPath)) {
-    ans = help;
+    ans = helps;
   }
   return ans;
 }

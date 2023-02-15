@@ -13,13 +13,13 @@ import global from '~/obj/global';
 async function upgradePackageCrossLocal(name, version, url) {
   const local = path.resolve('.drip', 'local', 'package', name);
   const socket = new Socket();
-  const latest = await socket.request([0, name]);
+  const latest = await socket.request([0, name], 'one', 'text');
   const result = compareVersion(
     getLatestVersion(local), latest, (v1, v2) => v1 >= v2
   );
   if (result.some((flag) => !flag)) {
     const current = getLatestVersion(local);
-    const patch = await socket.request([1, name, latest, current], 'buffer');
+    const patch = await socket.request([1, name, latest, current], 'serail', 'buffer');
     installPackageFromPatch(patch, latest, name);
     console.error('Package ' + '\'' + name + '\'' + ' upgrade...');
   }

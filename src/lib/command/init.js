@@ -44,7 +44,7 @@ async function installCommand(command, alias, all) {
       } = getConfig();
       global.location = staticFileServer;
       const socket = new Socket();
-      const tar = await socket.requestWhenEnd([0, command], 'buffer');
+      const tar = await socket.request([0, command], 'serail', 'buffer');
       installCommandFromTar(tar);
       console.log(
         'Drip command ' + name + ' install on ' +
@@ -59,7 +59,7 @@ function cancelInstall() {
 }
 
 function installFinish() {
-  console.error('Current project ./drip install finish...');
+  console.error('Current project drip init finish...');
 }
 
 async function confirmInstall() {
@@ -77,7 +77,7 @@ async function confirmInstall() {
 async function installCommands(all) {
   const alias = {
     'local': 'start',
-  }
+  };
   const commands = ['local', 'client', 'server'];
   for (let i = 0; i < commands.length; i += 1) {
     const c = commands[i];
@@ -90,7 +90,7 @@ export default async function init(...param) {
   const options = parseOption(...param);
   if (!fs.existsSync('.drip/')) {
     let result;
-    if (options.a || options.all) {
+    if (options.b || options.base) {
       result = true;
     } else {
       result = await askQuestion(

@@ -1,3 +1,4 @@
+import path from 'path';
 import '~/lib/util/checkVersion';
 import chalk from 'chalk';
 import OptionTip from '~/lib/util/OptionTip';
@@ -15,27 +16,41 @@ export default function help(...param) {
     '  ██████╔╝██║░░██║██║██║░░░░░   ',
     '  ╚═════╝░╚═╝░░╚═╝╚═╝╚═╝░░░░░   ',
     '                                ',
-    '  ' + chalk.bold('Command line prompt') + ':',
-    '                                ',
+    chalk.bold('Command line prompt') + ':',
     '  - init  Initial current project as a drip project.',
-    OptionTip('a', 'all', 'Skip initial question and install all commmand.'),
-    '',
-    dynamicHelp(
+    '  ' + OptionTip('b', 'base', 'Skip initial question and init base drip project.'),
+    '  ' + OptionTip('a', 'all', 'Skip initial question and install all commmand.'),
+    ...dynamicHelp(
       path.join(localPath, 'drip-local'),
-      '  - start Start drip main program.'
+      ['  - start Start drip main program.'],
     ),
-    dynamicHelp(
+    ...dynamicHelp(
       path.join(localPath, 'drip-client'),
-      '  - client Start drip client program.'
+      ['  - client Start drip client program.'],
     ),
-    dynamicHelp(
+    ...dynamicHelp(
       path.join(localPath, 'drip-server'),
-      '  - server Start drip server program.'
+      ['  - server Start drip server program.'],
     ),
-    '  - install Install drip packages.',
-    '  - upgrade Upgrade drip packages.',
-    '  - cleanup Clean up drip project packages local cache.',
-    OptionTip('a', 'all', 'Clean up current user project local all cache.'),
+    ...dynamicHelp(
+      localPath,
+      ['  - install Install drip packages.'],
+    ),
+    ...dynamicHelp(
+      localPath,
+      ['  - upgrade Upgrade drip packages.'],
+    ),
+    ...dynamicHelp(
+      localPath,
+      ['  - upgrade Upgrade drip packages.'],
+    ),
+    ...dynamicHelp(
+      localPath,
+      [
+        '  - cleanup Clean up drip project packages local cache.',
+        '  ' + OptionTip('a', 'all', 'Clean up current user project local all cache.'),
+      ],
+    ),
     '',
     'Use `' + chalk.bold('drip commmand --help') + '` get each command more detail information.',
     'Website [' + chalk.bold('drip doc') + '](' + chalk.bold('https://driptool.com/doc') + ') provide related document. ',

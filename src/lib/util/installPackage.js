@@ -16,7 +16,7 @@ async function installPackageCrossLocal(name, version, url) {
       const tags = getTagList(localPath);
       if (tags.every((tag) => tag !== version)) {
         const socket = new Socket();
-        const patch = await socket.request([1, name, localPath]);
+        const patch = await socket.request([1, name, localPath], 'serail', 'buffer');
         installPackageFromPatch(patch, version, name);
         socket.end();
       } else {
@@ -32,8 +32,8 @@ export default async function installPackage(pkg) {
   const localPath = path.join(process.env.HOME, '.drip', 'package', name);
   if (!fs.existsSync(localPath)) {
     const socket = new Socket();
-    const latest = await socket.request([0, name]);
-    const tar = await socket.request([2, name, latest], 'buffer');
+    const latest = await socket.request([0, name], 'one', 'text');
+    const tar = await socket.request([2, name, latest], 'serail', 'buffer');
     await installPackageFromTar(tar, latest, name);
     socket.end();
     console.log('Package ' + '\'' + name + '\'' + ' install successful...');

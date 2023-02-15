@@ -20,7 +20,7 @@ function buildStatic(project, operates, paths, shells) {
   shells.push('rm -rf ' + staticPath);
   shells.push('mkdir ' + staticPath);
   process.chdir(cwd);
-  paths.filter((p)).forEach((p) => {
+  paths.forEach((p) => {
     shells.push('cp -a -R ' + path.join(srcPath, p) + ' ' + staticPath);
   });
   shells.push('cd ' + staticPath);
@@ -53,7 +53,7 @@ function buildDrip() {
   shells.push('unset PREFIX');
   shells.push('. ~/.nvm/nvm.sh');
   shells.push('nvm use v19.3.0');
-  shells.push('drip init -y');
+  shells.push('drip init --base --all');
   execSync(shells.join('&&'));
 }
 

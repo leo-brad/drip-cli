@@ -1,6 +1,56 @@
 import net from 'net';
 import global from '~/obj/global';
 
+function requestSerial(socket, data, dataType) {
+  socket.write(JSON.stringify(data));
+  return new Promise((resolve, reject) => {
+    const buffer = [];
+    socket.on('data', (data) => {
+      buffer.push(data);
+    });
+    socket.on('end', (data) => {
+      switch (dataType) {
+        case 'buffer':
+          resolve(Buffer.concat(buffer));
+          break;
+        case 'text':
+          resolve(Buffer.concat(buffer).toString());
+          break;
+      }
+    });
+    socket.on('error', (error) => {
+      reject(error);
+    });
+    socket.on('timeout', () => {
+      reject(new Error('[Error] socket connect timeout.'));
+    });
+  });
+}
+
+function requestOne(socket, data, dataType) {
+  socket.write(JSON.stringify(data));
+  return new Promise((resolve, reject) => {
+    const buffer = [];
+    socket.on('data', (data) => {
+      switch (dataType) {
+        case 'buffer':
+          resolve(data);
+          break;
+        case 'text':
+          resolve(data.toString());
+          break;
+      }
+    });
+    socket.on('error', (error) => {
+      reject(error);
+    });
+    socket.on('timeout', () => {
+      reject(new Error('[Error] socket connect timeout.'));
+    });
+  });
+}
+
+
 class Socket {
   constructor() {
     const [ip, port] = global.location.split(':');
@@ -12,56 +62,16 @@ class Socket {
     });
   }
 
-  // @TODO refactor
-  requestWhenEnd(data, type) {
+  request(data, parseType, dataType) {
     const { socket, } = this;
-    socket.write(JSON.stringify(data));
-    return new Promise((resolve, reject) => {
-      const buffer = [];
-      socket.on('data', (data) => {
-        buffer.push(data);
-      });
-      socket.on('end', (data) => {
-        switch (type) {
-          case 'buffer':
-            resolve(Buffer.concat(buffer));
-            break;
-          default:
-            resolve(Buffer.concat(buffer).toString());
-            break;
-        }
-      });
-      socket.on('error', (error) => {
-        reject(error);
-      });
-      socket.on('timeout', () => {
-        reject(new Error('[Error] socket connect timeout.'));
-      });
-    });
-  }
-
-  request(data, type) {
-    const { socket, } = this;
-    socket.write(JSON.stringify(data));
-    return new Promise((resolve, reject) => {
-      const buffer = [];
-      socket.on('data', (data) => {
-        switch (type) {
-          case 'buffer':
-            resolve(data);
-            break;
-          default:
-            resolve(data.toString());
-            break;
-        }
-      });
-      socket.on('error', (error) => {
-        reject(error);
-      });
-      socket.on('timeout', () => {
-        reject(new Error('[Error] socket connect timeout.'));
-      });
-    });
+    switch (parseType) {
+      case 'serail':
+        return requestSerial(socket, data, dataType);
+        break;
+      case 'one':
+        return requestOne(socket, data, dataType);
+        break;
+    }
   }
 
   end() {

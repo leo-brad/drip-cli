@@ -87,7 +87,7 @@ async function installCommands(all) {
 }
 
 export default async function init(...param) {
-  //checkDependence(['git', 'tar']);
+  checkDependence(['git', 'tar']);
   const options = parseOption(...param);
   if (!fs.existsSync('.drip/')) {
     let result;
@@ -104,6 +104,6 @@ export default async function init(...param) {
       cancelInstall();
     }
   }
-  //await installCommands(options.a || options.all);
+  await installCommands(options.a || options.all);
   installFinish();
 }

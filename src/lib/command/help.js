@@ -8,7 +8,6 @@ export default function help(...param) {
   const localPath = path.resolve('.drip', 'local');
   console.log([
     '                                ',
-    '                                ',
     '  ██████╗░██████╗░██╗██████╗░   ',
     '  ██╔══██╗██╔══██╗██║██╔══██╗   ',
     '  ██║░░██║██████╔╝██║██████╔╝   ',

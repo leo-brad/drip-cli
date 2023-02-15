@@ -53,7 +53,7 @@ function buildDrip() {
   shells.push('unset PREFIX');
   shells.push('. ~/.nvm/nvm.sh');
   shells.push('nvm use v19.3.0');
-  shells.push('drip init --base --all');
+  shells.push('drip init --base');
   execSync(shells.join('&&'));
 }
 

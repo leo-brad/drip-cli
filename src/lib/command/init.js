@@ -103,6 +103,6 @@ export default async function init(...param) {
       cancelInstall();
     }
   }
-  await installCommands();
+  await installCommands(options.a || options.all);
   installFinish();
 }

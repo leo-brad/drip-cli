@@ -11,7 +11,7 @@
   //['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
   //{ detached: true, },
 //);
-import help from '~/lib/command/client/help';
+import init from '~/lib/command/init';
 
 process.chdir('/tmp/example/');
-help();
+init();

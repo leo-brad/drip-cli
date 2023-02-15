@@ -55,7 +55,6 @@ export default function checkDependence(dependencies) {
   for (let i = 0; i < dependencies.length; i += 1) {
     const d = dependencies[i];
     exec(d + ' --help', (error) => {
-      console.log(error);
       if (error !== null) {
         showError(d);
         err += 1;

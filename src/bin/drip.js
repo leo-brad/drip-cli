@@ -7,6 +7,7 @@ import client from '~/lib/command/client';
 import server from '~/lib/command/server';
 import cleanup from '~/lib/command/cleanup';
 import upgrade from '~/lib/command/upgrade';
+import command from '~/lib/command/command';
 
 const [_1, _2, one, ...rest] = process.argv;
 
@@ -36,6 +37,8 @@ async function main() {
     case 'cleanup':
       cleanup(...rest);
       break;
+    case 'command':
+      await command(...rest);
     default:
       help(...rest);
       break;

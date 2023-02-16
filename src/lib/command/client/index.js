@@ -4,7 +4,7 @@ import main from './main';
 import checkPath from '~/lib/util/checkPath';
 
 export default function client(...param) {
-  checkPath(path.resolve('.drip', 'local', 'drip-client'));
+  checkPath(path.join(process.env.HOME,'.drip'));
   const [one, ...rest] = param;
   switch (one) {
     case '--help':

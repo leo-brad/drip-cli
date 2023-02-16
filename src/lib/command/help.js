@@ -3,6 +3,7 @@ import '~/lib/util/checkVersion';
 import chalk from 'chalk';
 import OptionTip from '~/lib/util/OptionTip';
 import dynamicHelp from '~/lib/util/dynamicHelp';
+import commandList from '~/lib/util/commandList';
 
 export default function help(...param) {
   const localPath = path.resolve('.drip', 'local');
@@ -17,34 +18,30 @@ export default function help(...param) {
     '                                ',
     chalk.bold('Command line prompt') + ':',
     '  - init  Initial current project as a drip project.',
-    '  ' + OptionTip('b', 'base', 'Skip initial question and init base drip project.'),
-    '  ' + OptionTip('a', 'all', 'Skip initial question and install all commmand.'),
+    '  ' + OptionTip('y', 'yes', 'Skip initial question and init base drip project.'),
+    '  - command ' + commandList(['add', 'remove', 'upgrade', 'list']) + ' drip command program.',
     ...dynamicHelp(
-      path.join(localPath, 'drip-local'),
+      path.join(localPath, 'drip-local'), true,
       ['  - start Start drip main program.'],
     ),
     ...dynamicHelp(
-      path.join(localPath, 'drip-client'),
+      path.join(localPath, 'drip-client'), true,
       ['  - client Start drip client program.'],
     ),
     ...dynamicHelp(
-      path.join(localPath, 'drip-server'),
+      path.join(localPath, 'drip-server'), true,
       ['  - server Start drip server program.'],
     ),
     ...dynamicHelp(
-      localPath,
+      localPath, true,
       ['  - install Install drip packages.'],
     ),
     ...dynamicHelp(
-      localPath,
+      localPath, true,
       ['  - upgrade Upgrade drip packages.'],
     ),
     ...dynamicHelp(
-      localPath,
-      ['  - upgrade Upgrade drip packages.'],
-    ),
-    ...dynamicHelp(
-      localPath,
+      localPath, true,
       [
         '  - cleanup Clean up drip project packages local cache.',
         '  ' + OptionTip('a', 'all', 'Clean up current user project local all cache.'),

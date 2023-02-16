@@ -3,7 +3,7 @@ import path from 'path';
 
 export default function main() {
   const cwd = process.cwd();
-  process.chdir(path.resolve('.drip/local/drip-client/'));
+  process.chdir(path.join(process.env.HOME, '.drip'));
   spawn(
     'npx', ['electron', 'dist/main.js', ...rest],
     { detached: true, },

@@ -1,14 +1,5 @@
-import OptionTip from '~/lib/util/OptionTip';
+import chalk from 'chalk';
 
-export default function commandTip(name, fun, options) {
-  const lines = [
-    'drip ' + name + ' ' + fun,
-  ];
-  options.forEach((p) => {
-    const [simple, complex, tip] = p;
-    lines.push(OptionTip(simple, complex, tip));
-  });
-  lines.push('');
-  console.log(lines.join('\n'));
+export default function commandTip(subcommandTip, tip) {
+  return '- ' + chalk.bold(subcommandTip) + ' ' + tip;
 }
-

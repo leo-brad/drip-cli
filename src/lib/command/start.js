@@ -4,11 +4,11 @@ import getConfig from '~/lib/util/getConfig';
 import checkPath from '~/lib/util/checkPath';
 
 export default function start(...param) {
-  checkPath(path.resolve('.drip', 'local', 'drip-local'));
+  checkPath(path.join(process.env.HOME, '.drip'));
   const [one, ...rest] = param;
   const config = getConfig();
   const cwd = process.cwd();
-  process.chdir(path.resolve('.drip/local/drip-local/'));
+  process.chdir(path.join(process.env.HOME, '.drip'));
   spawn(
     'npx',
     ['electron', 'dist/main.js', JSON.stringify(config), cwd],

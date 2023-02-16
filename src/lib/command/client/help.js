@@ -1,9 +1,7 @@
-import commandTip from '~/lib/util/commandTip';
+import optionTip from '~/lib/util/optionTip';
 
 export default function help(...param) {
-  commandTip('client', 'Start drip client program.',
-    [
-      ['p', 'port', 'Appoint drip client connect concrete socket port.'],
-    ]
-  );
+  console.log([
+    optionTip('p', 'port', 'Appoint drip client connect concrete socket port.'),
+  ].join('\n'));
 }

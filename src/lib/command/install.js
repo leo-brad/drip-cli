@@ -15,7 +15,7 @@ export default async function install(...param) {
   checkPath(path.resolve('.drip'));
   checkDependence(['git', 'tar']);
   const [one, ...rest] = param;
-  const { packages, packageFileServer,  } = getConfig();
+  const { packages, packageFileServer, } = getConfig();
   global.location = packageFileServer;
   let count = 0;
   const plus = diffPlusPackage(packages);

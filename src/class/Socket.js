@@ -1,11 +1,14 @@
 import net from 'net';
 import global from '~/obj/global';
 
-function requestSerial(socket, data, dataType) {
+function requestSerial(socket, data, dataType, cb) {
   socket.write(JSON.stringify(data));
   return new Promise((resolve, reject) => {
     const buffer = [];
     socket.on('data', (data) => {
+      if (typeof cb === 'function') {
+        cb(data);
+      }
       buffer.push(data);
     });
     socket.on('end', (data) => {
@@ -27,7 +30,7 @@ function requestSerial(socket, data, dataType) {
   });
 }
 
-function requestOne(socket, data, dataType) {
+function requestOne(socket, data, dataType, cb) {
   socket.write(JSON.stringify(data));
   return new Promise((resolve, reject) => {
     const buffer = [];
@@ -62,11 +65,11 @@ class Socket {
     });
   }
 
-  request(data, parseType, dataType) {
+  request(data, parseType, dataType, cb) {
     const { socket, } = this;
     switch (parseType) {
       case 'serail':
-        return requestSerial(socket, data, dataType);
+        return requestSerial(socket, data, dataType, cb);
         break;
       case 'one':
         return requestOne(socket, data, dataType);

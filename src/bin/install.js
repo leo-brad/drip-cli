@@ -10,6 +10,7 @@ if (fs.existsSync(dripDir)) {
   shells.push('git clone /tmp/drip-cli-static/.git $HOME/.drip');
   shells.push('rm $HOME/.drip/package/.gitkeep');
   shells.push('rm $HOME/.drip/db/.gitkeep');
+  shells.push('rm $HOME/.drip/command/.gitkeep');
   shells.push('rm -rf $HOME/.drip/.git');
   execSync(shells.join('&&'));
   console.log('Drip install in ' + dripDir);

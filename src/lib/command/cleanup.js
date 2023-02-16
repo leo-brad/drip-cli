@@ -25,7 +25,7 @@ function cleanupLocal(pkgPath, localPath, version) {
 }
 
 export default function cleanup(...param) {
-  checkPath(path.resolve('.drip'));
+  checkPath(path.resolve('.drip'), help);
   checkDependence(['git']);
   const options = parseOption(...param);
   const packagePath = path.resolve('.drip', 'local', 'package');

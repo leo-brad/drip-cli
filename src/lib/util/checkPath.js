@@ -4,7 +4,7 @@ import help from '~/lib/command/help';
 
 export default function checkPath(path, cb) {
   if (!fs.existsSync(path)) {
-    help();
+    cb();
     process.exit(0);
   }
 }

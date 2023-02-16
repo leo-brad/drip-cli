@@ -12,6 +12,7 @@
   //{ detached: true, },
 //);
 import help from '~/lib/command/client/help';
+import chalk from 'chalk'
 
 process.chdir('/tmp/example/');
 //help();

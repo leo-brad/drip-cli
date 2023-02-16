@@ -28,7 +28,7 @@ async function upgradePackageCrossLocal(name, version, url) {
 }
 
 export default async function upgrade(...param) {
-  checkPath(path.resolve('.drip'));
+  checkPath(path.resolve('.drip'), help);
   checkDependence(['git', 'tar']);
   const { packageFileServer,  } = getConfig();
   global.location = packageFileServer;

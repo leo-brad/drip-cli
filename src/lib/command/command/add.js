@@ -1,7 +1,18 @@
-import chalk from 'chalk';
+import { exec, } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+import askQuestion from '~/lib/util/askQuestion';
+import parseOption from '~/lib/util/parseOption';
+import checkDependence from '~/lib/util/checkDependence';
+import checkPath from '~/lib/util/checkPath';
+import loading from '~/lib/util/loading';
+import Socket from '~/class/Socket';
+import Wait from '~/class/Wait';
+import getConfig from '~/lib/util/getConfig';
+import global from '~/obj/global';
 
 async function installCommandFromTar(tar, name) {
-  const localPath = path.resolve('.drip', 'local');
+  const localPath = path.join(process.env.HOME, '.drip', 'command');
   const command = fs.openSync(path.join(localPath, 'command.tar.bz'), 'a+');
   fs.writeSync(command, tar);
   fs.fsyncSync(command);
@@ -22,8 +33,8 @@ async function installCommandFromTar(tar, name) {
   });
 }
 
-async function installCommand(command, alias, all) {
-  const commandPath = path.resolve('.drip', 'local', 'drip-' + command);
+async function installCommand(command, alias) {
+  const commandPath = path.join(process.env.HOME, '.drip', 'command', 'drip-' + command);
   if (!fs.existsSync(commandPath)) {
     let name;
     if (alias !== undefined) {
@@ -60,14 +71,15 @@ async function installCommand(command, alias, all) {
 
 
 export default async function add(...param) {
+  checkDependence(['tar']);
   const commands = ['start', 'client', 'server'];
   const alias = {
     'local': 'start',
   };
   const [command] = param;
   if (!commands.includes(command)) {
-    console.log('Command ' + chalk.bold(command) + ' isn\'t a drip command.');
+    console.log('Command `' + command + '` isn\'t a drip command.');
   } else {
-    await installCommand(c, alias[c], all);
+    await installCommand(command, alias[command]);
   }
 }

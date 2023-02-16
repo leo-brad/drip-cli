@@ -39,6 +39,7 @@ async function main() {
       break;
     case 'command':
       await command(...rest);
+      break;
     default:
       help(...rest);
       break;

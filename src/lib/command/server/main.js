@@ -5,7 +5,7 @@ import getConfig from '~/lib/util/getConfig';
 export default function main(...rest) {
   const config = getConfig();
   const cwd = process.cwd();
-  process.chdir(path.join(process.env.HOME, '.drip'));
+  process.chdir(path.join(process.env.HOME, '.drip', 'command', 'drip-server'));
   spawn(
     'node',
     ['dist/index.js', JSON.stringify(config), cwd, ...rest],

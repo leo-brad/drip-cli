@@ -4,7 +4,7 @@ import getConfig from '~/lib/util/getConfig';
 import checkPath from '~/lib/util/checkPath';
 
 export default function start(...param) {
-  checkPath(path.join(process.env.HOME, '.drip'));
+  checkPath(path.join(process.env.HOME, '.drip', 'command', 'drip-local'), help);
   const [one, ...rest] = param;
   const config = getConfig();
   const cwd = process.cwd();

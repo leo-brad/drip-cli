@@ -33,7 +33,7 @@ function buildStatic(project, operates, paths, shells) {
   shells.push('node ./dist/bin/install.js');
 }
 
-function buildEnv() {
+function buildDrip() {
   const shells = [];
   shells.push('rm -rf $HOME/.drip/');
   buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
@@ -47,7 +47,7 @@ function buildEnv() {
   execSync(shells.join('&&'));
 }
 
-function buildDrip() {
+function buildExample() {
   const shells = [];
   shells.push('cd /tmp/example/');
   shells.push('unset PREFIX');
@@ -57,5 +57,5 @@ function buildDrip() {
   execSync(shells.join('&&'));
 }
 
-buildEnv();
 buildDrip();
+//buildExample();

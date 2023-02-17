@@ -1,3 +1,13 @@
+import { exec, } from 'child_process';
+import path from 'path';
+import fs from 'fs';
+import chalk from 'chalk';
+import loading from '~/lib/util/loading';
+import Socket from '~/class/Socket';
+import Wait from '~/class/Wait';
+import getLocalConfig from '~/lib/util/getLocalConfig';
+import global from '~/obj/global';
+
 async function installCommandFromTar(tar, name) {
   const localPath = path.join(process.env.HOME, '.drip', 'command');
   const command = fs.openSync(path.join(localPath, 'command.tar.bz'), 'a+');

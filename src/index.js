@@ -11,9 +11,7 @@
   //['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
   //{ detached: true, },
 //);
-import chalk from 'chalk';
-import Wait from '~/class/Wait';
+import upgrade from '~/lib/command/command/upgrade';
 
 process.chdir('/tmp/example/');
-new Wait('extra `' +  chalk.bold('command') + '` fasdfdsa', { done: false, }).start();
-//help();
+upgrade();

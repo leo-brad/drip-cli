@@ -12,14 +12,13 @@ const turnAlias = {
 };
 
 async function chooseUpgradeCommand(name) {
-  let result;
-  if (all) {
-    result = true;
-  } else {
-    result = await askQuestion(
-      'Are you need upgrade command drip ' + turnAlias[name] + '.'
-    );
+  let alias = name;
+  if (turnAlias[name] !== undefined) {
+    alias = turnAlias[name];
   }
+  const result = await askQuestion(
+    'Are you need upgrade command drip ' + alias + '.'
+  );
   if (result) {
     removeCommand(name);
     await installCommand(name, turnAlias[name]);
@@ -33,13 +32,18 @@ export default async function upgrade(...param) {
   } = getLocalConfig();
   global.location = staticFileServer;
   const socket = new Socket();
-  const commands = fs.readdirSync(commandPath);
-  const times = await ocket.request([3, commands], 'one', 'text');
-  commands.forEach((p, i) => {
-    const time = fs.statsSync(path.join(commandPath, p)).ctimeMs;
-    if (time < times[i]) {
-      const [_, name] = p.split('-');
-      await chooseUpgradeCommand(name, alias);
-    }
+  const commands = fs.readdirSync(commandPath).map((name) => {
+    const [_, command] = name.split('-');
+    return command;
   });
+  const json = await socket.request([2, commands], 'one', 'text');
+  const times = JSON.parse(json);
+  for (let i = 0; i < commands.length; i += 1) {
+    const command = commands[i];
+    const time = fs.statSync(path.join(commandPath, 'drip-' + command)).ctimeMs;
+    if (Number(time) < Number(times[i])) {
+      await chooseUpgradeCommand(command);
+    }
+  }
+  console.log('Drip command upgrade success...');
 }

@@ -1,6 +1,7 @@
 import { exec, } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import chalk from 'chalk';
 import askQuestion from '~/lib/util/askQuestion';
 import parseOption from '~/lib/util/parseOption';
 import checkDependence from '~/lib/util/checkDependence';
@@ -22,7 +23,7 @@ async function installCommandFromTar(tar, name) {
   shells.push('rm ./command.tar.bz');
   shells.push('echo end');
   const status = { done: false, };
-  new Wait('Extra command ' + name, status).start();
+  new Wait('extra  command `' + chalk.bold(name) + '`', status).start();
   await new Promise((resolve) => {
     exec(shells.join('&&'), (error, stdout, stderr) => {
       if (stdout === 'end\n') {
@@ -61,11 +62,11 @@ async function installCommand(command, alias) {
     });
     await installCommandFromTar(tar, name);
     console.log(
-      'Drip command ' + name + ' install on ' +
+      'Drip command `' + name + '` install on ' +
       path.join(process.cwd(), '.drip', 'local', 'drip-' + name) + '...'
     );
   } else {
-    console.log('Drip command ' + command + ' is already exist.');
+    console.log('Drip command `' + command + '` is already exist.');
   }
 }
 

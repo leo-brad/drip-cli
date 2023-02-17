@@ -3,12 +3,12 @@ import chalk from 'chalk';
 import checkPath from '~/lib/util/checkPath';
 import add from './add';
 import list from './list';
+import remove from './remove';
 import help from './help';
 import h from '~/lib/command/help';
 
 export default async function command(...param) {
-  const dripPath = path.join(process.env.HOME, '.drip');
-  checkPath(path.resolve('.drip'), h);
+  checkPath(path.join(process.env.HOME, '.drip', 'command'), h);
   const [command, ...rest] = param;
   switch (command) {
     case 'add':
@@ -24,7 +24,7 @@ export default async function command(...param) {
       list();
       break;
     default:
-      h();
+      help();
       break;
   }
 }

@@ -9,9 +9,8 @@ import cleanup from '~/lib/command/cleanup';
 import upgrade from '~/lib/command/upgrade';
 import command from '~/lib/command/command';
 
-const [_1, _2, one, ...rest] = process.argv;
-
 async function main() {
+  const [_1, _2, one, ...rest] = process.argv;
   switch (one) {
     case 'init':
       await init(...rest);

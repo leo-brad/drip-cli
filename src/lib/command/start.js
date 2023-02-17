@@ -2,6 +2,7 @@ import { spawn, } from 'child_process';
 import path from 'path';
 import getConfig from '~/lib/util/getConfig';
 import checkPath from '~/lib/util/checkPath';
+import help from '~/lib/command/help';
 
 export default function start(...param) {
   checkPath(path.join(process.env.HOME, '.drip', 'command', 'drip-local'), help);

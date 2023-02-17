@@ -11,7 +11,9 @@
   //['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
   //{ detached: true, },
 //);
-import upgrade from '~/lib/command/command/upgrade';
+//import install from '~/lib/command/install';
 
-process.chdir('/tmp/example/');
-upgrade();
+//process.chdir('/tmp/example/');
+//install();
+import checkDependence from '~/lib/util/checkDependence';
+checkDependence(['cd', 'git']);

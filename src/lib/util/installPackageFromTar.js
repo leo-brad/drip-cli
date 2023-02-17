@@ -4,6 +4,7 @@ import fs from 'fs';
 import checkDependence from '~/lib/util/checkDependence';
 import getTagList from '~/lib/util/getTagList';
 import LocalNetDatabase from '~/class/LocalNetDatabase';
+import help from '~/lib/command/help';
 
 export default function installPackageFromTar(tar, version, name) {
   checkDependence(['cd', 'cat', 'rm', 'git']);

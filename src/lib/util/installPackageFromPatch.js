@@ -3,6 +3,7 @@ import fs from 'fs';
 import { execSync, } from 'child_process'
 import checkDependence from '~/lib/util/checkDependence';
 import LocalNetDatabase from '~/class/LocalNetDatabase';
+import help from '~/lib/command/help';
 
 export default function installPackageFromPatch(patch, version, name) {
   checkDependence(['cd', 'git', 'rm']);

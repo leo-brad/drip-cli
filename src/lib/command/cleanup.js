@@ -2,6 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { execSync, } from 'child_process';
 import LocalNetDatabase from '~/class/LocalNetDatabase';
+import help from '~/lib/command/help';
 import iteratorPackagePath from '~/lib/util/iteratorPackagePath';
 import getVersionHash from '~/lib/util/getVersionHash';
 import getLatestVersion from '~/lib/util/getLatestVersion';

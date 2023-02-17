@@ -1,4 +1,5 @@
 import path from 'path';
+import getLocalConfig from '~/lib/util/getLocalConfig';
 import getConfig from '~/lib/util/getConfig';
 import {
   rmPackage,
@@ -8,12 +9,14 @@ import {
 import installPackage from '~/lib/util/installPackage';
 import getVersionHash from '~/lib/util/getVersionHash';
 import checkPath from '~/lib/util/checkPath';
+import help from '~/lib/command/help';
 import global from '~/obj/global';
 
 export default async function install(...param) {
   checkPath(path.resolve('.drip'), help);
   const [one, ...rest] = param;
-  const { packages, packageFileServer, } = getConfig();
+  const { packages, } = getConfig();
+  const { packageFileServer, } = getLocalConfig();
   global.location = packageFileServer;
   let count = 0;
   const plus = diffPlusPackage(packages);

@@ -5,6 +5,7 @@ import chalk from 'chalk';
 import loading from '~/lib/util/loading';
 import getLocalConfig from '~/lib/util/getLocalConfig';
 import checkDependence from '~/lib/util/checkDependence';
+import help from '~/lib/command/help';
 import Socket from '~/class/Socket';
 import Wait from '~/class/Wait';
 import global from '~/obj/global';

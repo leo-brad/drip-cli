@@ -1,7 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import Socket from '~/class/Socket';
-import getConfig from '~/lib/util/getConfig';
+import getLocalConfig from '~/lib/util/getLocalConfig';
 import compareVersion from '~/lib/util/compareVersion';
 import getLatestVersion from '~/lib/util/getLatestVersion';
 import installPackage from '~/lib/util/installPackage';
@@ -19,7 +19,7 @@ async function upgradePackageCrossLocal(name, version, url) {
   );
   if (result.some((flag) => !flag)) {
     const current = getLatestVersion(local);
-    const patch = await socket.request([1, name, latest, current], 'serail', 'buffer');
+    const patch = await socket.request([1, name, current, latest], 'serail', 'buffer');
     installPackageFromPatch(patch, latest, name);
     console.error('Package ' + '\'' + name + '\'' + ' upgrade...');
   }
@@ -28,7 +28,7 @@ async function upgradePackageCrossLocal(name, version, url) {
 
 export default async function upgrade(...param) {
   checkPath(path.resolve('.drip'), help);
-  const { packageFileServer,  } = getConfig();
+  const { packageFileServer,  } = getLocalConfig();
   global.location = packageFileServer;
   let count = 0;
   await iteratorConfigPackage(async (pkg) => {

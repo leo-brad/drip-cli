@@ -2,6 +2,7 @@ import { execSync, } from 'child_process';
 import path from 'path';
 import fs from 'fs';
 import checkDependence from '~/lib/util/checkDependence';
+import help from '~/lib/command/help';
 
 export default function installPackageFromGit(version, name) {
   checkDependence(['cd', 'git']);

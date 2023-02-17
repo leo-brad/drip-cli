@@ -1,6 +1,7 @@
 import path from 'path';
 import fs from 'fs';
 import Socket from '~/class/Socket';
+import getVersionHash from '~/lib/util/getVersionHash';
 import getLatestVersion from '~/lib/util/getLatestVersion';
 import installPackageFromGit from '~/lib/util/installPackageFromGit';
 import installPackageFromTar from '~/lib/util/installPackageFromTar';
@@ -16,7 +17,8 @@ async function installPackageCrossLocal(name, version, url) {
       const tags = getTagList(localPath);
       if (tags.every((tag) => tag !== version)) {
         const socket = new Socket();
-        const patch = await socket.request([1, name, localPath], 'serail', 'buffer');
+        const versionHash = getVersionHash();
+        const patch = await socket.request([1, name, versionHash[name], version], 'serail', 'buffer');
         installPackageFromPatch(patch, version, name);
         socket.end();
       } else {

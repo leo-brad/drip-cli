@@ -1,10 +1,12 @@
 import { execSync, } from 'child_process';
 import path from 'path';
 import fs from 'fs';
+import checkDependence from '~/lib/util/checkDependence';
 import getTagList from '~/lib/util/getTagList';
 import LocalNetDatabase from '~/class/LocalNetDatabase';
 
 export default function installPackageFromTar(tar, version, name) {
+  checkDependence(['cd', 'cat', 'rm', 'git']);
   let shells = [];
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   if (!fs.existsSync(localPath)) {

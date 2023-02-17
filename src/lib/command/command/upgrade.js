@@ -1,3 +1,4 @@
+import { execSync, } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 import getLocalConfig from '~/lib/util/getLocalConfig';
@@ -20,7 +21,7 @@ async function chooseUpgradeCommand(name) {
     'Are you need upgrade command drip ' + alias + '.'
   );
   if (result) {
-    removeCommand(name);
+    execSync('rm -rf ' + path.join(process.env.HOME, '.drip', 'command', 'drip-'+name));
     await installCommand(name, turnAlias[name]);
   }
 }

@@ -1,8 +1,10 @@
+import { execSync, } from 'child_process';
 import path from 'path';
 import fs from 'fs';
-import { execSync, } from 'child_process';
+import checkDependence from '~/lib/util/checkDependence';
 
 export default function installPackageFromGit(version, name) {
+  checkDependence(['cd', 'git']);
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   const shells = [];
   shells.push('cd ' + localPath);

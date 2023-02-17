@@ -7,13 +7,11 @@ import {
 } from '~/lib/util/package';
 import installPackage from '~/lib/util/installPackage';
 import getVersionHash from '~/lib/util/getVersionHash';
-import checkDependence from '~/lib/util/checkDependence';
 import checkPath from '~/lib/util/checkPath';
 import global from '~/obj/global';
 
 export default async function install(...param) {
   checkPath(path.resolve('.drip'), help);
-  checkDependence(['git', 'tar']);
   const [one, ...rest] = param;
   const { packages, packageFileServer, } = getConfig();
   global.location = packageFileServer;

@@ -3,12 +3,14 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 import loading from '~/lib/util/loading';
+import getLocalConfig from '~/lib/util/getLocalConfig';
+import checkDependence from '~/lib/util/checkDependence';
 import Socket from '~/class/Socket';
 import Wait from '~/class/Wait';
-import getLocalConfig from '~/lib/util/getLocalConfig';
 import global from '~/obj/global';
 
 async function installCommandFromTar(tar, name) {
+  checkDependence(['cd', 'cat', 'rm', 'echo']);
   const localPath = path.join(process.env.HOME, '.drip', 'command');
   const command = fs.openSync(path.join(localPath, 'command.tar.bz'), 'a+');
   fs.writeSync(command, tar);

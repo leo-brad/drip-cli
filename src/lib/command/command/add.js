@@ -1,9 +1,7 @@
-import checkDependence from '~/lib/util/checkDependence';
 import checkPath from '~/lib/util/checkPath';
 import installCommand from '~/lib/util/installCommand';
 
 export default async function add(...param) {
-  checkDependence(['tar']);
   const commands = ['start', 'client', 'server'];
   const alias = {
     'local': 'start',

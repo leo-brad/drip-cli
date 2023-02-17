@@ -7,7 +7,6 @@ import getLatestVersion from '~/lib/util/getLatestVersion';
 import installPackage from '~/lib/util/installPackage';
 import installPackageFromPatch from '~/lib/util/installPackageFromPatch';
 import iteratorConfigPackage from '~/lib/util/iteratorConfigPackage';
-import checkDependence from '~/lib/util/checkDependence';
 import checkPath from '~/lib/util/checkPath';
 import global from '~/obj/global';
 
@@ -29,7 +28,6 @@ async function upgradePackageCrossLocal(name, version, url) {
 
 export default async function upgrade(...param) {
   checkPath(path.resolve('.drip'), help);
-  checkDependence(['git', 'tar']);
   const { packageFileServer,  } = getConfig();
   global.location = packageFileServer;
   let count = 0;

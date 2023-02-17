@@ -1,7 +1,9 @@
 import { execSync, } from 'child_process';
 import path from 'path';
+import checkDependence from '~/lib/util/checkDependence';
 
 export default function getTagList(pkgPath) {
+  checkDependence(['cd', 'git']);
   const shells = [];
   shells.push('cd ' + pkgPath);
   shells.push('git tag -l');

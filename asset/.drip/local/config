@@ -19,9 +19,3 @@ packages:
 
 " Level of instance index which affect both index time and index effect.
 index-level: 2(rank)
-
-" Package file server location.
-package-file-server: 127.0.0.1:3001
-
-" Static file server location.
-static-file-server: 127.0.0.1:3002

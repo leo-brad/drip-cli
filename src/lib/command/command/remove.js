@@ -1,17 +1,11 @@
 import path from 'path';
 import fs from 'fs';
+import removeCommand from '~/lib/util/removeCommand';
 
 export default function remove(...param) {
-  const commands = ['start', 'client', 'server'];
   const alias = {
     'local': 'start',
   };
   const [command] = param;
-  const commandPath = path.join(process.env.HOME, '.drip', 'command', 'drip-' + command);
-  if (fs.existsSync(commandPath)) {
-    fs.rmSync(commandPath, { recursive: true, });
-    console.log('Drip command `' + command + '` had be removed...');
-  } else {
-    console.log('Drip command `' + command + '` don\'t be installed.');
-  }
+  removeCommand(command);
 }

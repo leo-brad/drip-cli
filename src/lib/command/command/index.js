@@ -5,6 +5,7 @@ import add from './add';
 import list from './list';
 import remove from './remove';
 import help from './help';
+import upgrade from './upgrade';
 import h from '~/lib/command/help';
 
 export default async function command(...param) {
@@ -18,7 +19,7 @@ export default async function command(...param) {
       remove(...rest);
       break;
     case 'upgrade':
-      upgrade(...rest);
+      await upgrade(...rest);
       break;
     case 'list':
       list();

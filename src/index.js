@@ -15,5 +15,7 @@
 
 //process.chdir('/tmp/example/');
 //install();
-import checkDependence from '~/lib/util/checkDependence';
-checkDependence(['cd', 'git']);
+console.log('Drip install...');
+process.stdout.moveCursor(15, -1);
+while (true) {
+}

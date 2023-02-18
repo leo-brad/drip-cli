@@ -1,4 +1,4 @@
-import { execSync, exec, } from 'child_process';
+import { execSync, } from 'child_process';
 import net from 'net';
 import fs from 'fs';
 import path from 'path';
@@ -107,17 +107,19 @@ async function installCliFromTar(tar) {
 async function install() {
   const dripDir = path.join(process.env.HOME, '.drip');
   if (fs.existsSync(dripDir)) {
-    console.log('`' + dripDir + '`' + ' is already exist.')
+    console.log(dripDir + ' is already exist.')
   } else {
+    console.log('Drip installing...');
+    process.stdout.moveCursor(15, -1);
     const socket = new Socket();
     const tar = await socket.request([0, 'cli'], 'serail', 'buffer');
-    await installCliFromTar(tar);
+    installCliFromTar(tar);
     const shells = [];
     shells.push('rm $HOME/.drip/package/.gitkeep');
     shells.push('rm $HOME/.drip/db/.gitkeep');
     shells.push('rm $HOME/.drip/command/.gitkeep');
     execSync(shells.join('&&'));
-    console.log('Drip install in ' + dripDir);
+    console.log('\nDrip install in ' + dripDir);
   }
 }
 

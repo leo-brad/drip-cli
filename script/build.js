@@ -8,7 +8,7 @@ function buildStatic(project, operates, paths, shells) {
       srcPath = '.';
       break;
     default:
-      srcPath = path.join('..', project);
+      srcPath = path.resolve('..', project);
       break;
   }
   const cwd = process.cwd();
@@ -25,23 +25,19 @@ function buildStatic(project, operates, paths, shells) {
   });
   shells.push('cd ' + staticPath);
   shells.push('rm -rf .git');
-  shells.push('git init');
-  shells.push('git add --all');
-  shells.push('git gc --force');
-  shells.push('git commit -m "[Update]"');
   shells.push('cd ' + cwd)
   shells.push('node ./dist/bin/install.js');
 }
 
 function buildDrip() {
   const shells = [];
-  //shells.push('rm -rf $HOME/.drip/');
+  shells.push('rm -rf $HOME/.drip/');
   //buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
   //buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
-  buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
+  //buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
   //buildStatic('drip-server', ['build'], ['dist', 'node_modules'], shells);
   //buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules'], shells);
-  //shells.push('node ./dist/bin/install.js');
+  shells.push('node ./dist/bin/install.js');
   //shells.push('rm -rf /tmp/example');
   //shells.push('mkdir /tmp/example');
   execSync(shells.join('&&'));

@@ -3,16 +3,16 @@ import os from 'os';
 import chalk from 'chalk';
 
 function showCommandTip(command, d) {
-  return  'Use `' + chalk.bold(command + ' ' + d) + '` install related dependence.';
+  return  ' Use `' + chalk.bold(command + ' ' + d) + '` install related dependence.';
 }
 
 function showPlatformTip(d) {
   switch (os.platform()) {
     case 'darwin':
-      console.log(showCommandTip('brew install', d));
+      console.log(' - ' + showCommandTip('brew install', d));
       break;
     case 'freebsd':
-      console.log(showCommandTip('pkg install', d));
+      console.log(' - ' + showCommandTip('pkg install', d));
       break;
     case 'linux':
       console.log([
@@ -36,12 +36,12 @@ function showPlatformTip(d) {
   }
 }
 
-function showError(dependence) {
+function showError(dependence, number) {
   console.log([
     '',
-    chalk.bold('Dependence check happen an error') + ':',
+    chalk.bold('Dependence check error number ') + '[' + chalk.bold(number) + ']' + ':',
     '',
-    '  Command line program `' + chalk.bold(dependence) + '` don\'t be installed.',
+    'Command line program `' + chalk.bold(dependence) + '` don\'t be installed.',
     '',
     chalk.bold('Prossible help') + ':',
     '',
@@ -57,8 +57,8 @@ export default async function checkDependence(dependencies) {
     await new Promise((resolve, reject) => {
       exec(d + ' || ' + d + ' --help', (error) => {
         if (error !== null) {
-          showError(d);
           err += 1;
+          showError(d, err);
           resolve();
         }
       });

@@ -7,7 +7,7 @@ import LocalNetDatabase from '~/class/LocalNetDatabase';
 import help from '~/lib/command/help';
 
 export default function installPackageFromTar(tar, version, name) {
-  checkDependence(['cd', 'cat', 'rm', 'git']);
+  await checkDependence(['cd', 'cat', 'rm', 'git']);
   let shells = [];
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   if (!fs.existsSync(localPath)) {

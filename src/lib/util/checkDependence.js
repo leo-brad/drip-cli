@@ -41,7 +41,7 @@ function showError(dependence) {
     '',
     chalk.bold('Dependence check happen an error') + ':',
     '',
-    '  Command line program ' + chalk.bold(dependence) + ' don\'t be installed.',
+    '  Command line program `' + chalk.bold(dependence) + '` don\'t be installed.',
     '',
     chalk.bold('Prossible help') + ':',
     '',
@@ -50,15 +50,18 @@ function showError(dependence) {
   console.log('');
 }
 
-export default function checkDependence(dependencies) {
+export default async function checkDependence(dependencies) {
   let err = 0;
   for (let i = 0; i < dependencies.length; i += 1) {
     const d = dependencies[i];
-    exec(d + ' || ' + d + ' --help', (error) => {
-      if (error !== null) {
-        showError(d);
-        err += 1;
-      }
+    await new Promise((resolve, reject) => {
+      exec(d + ' || ' + d + ' --help', (error) => {
+        if (error !== null) {
+          showError(d);
+          err += 1;
+          resolve();
+        }
+      });
     });
   }
   if (err > 0) {

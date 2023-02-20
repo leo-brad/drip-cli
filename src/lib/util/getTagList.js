@@ -4,7 +4,7 @@ import checkDependence from '~/lib/util/checkDependence';
 import help from '~/lib/command/help';
 
 export default function getTagList(pkgPath) {
-  checkDependence(['cd', 'git']);
+  await checkDependence(['cd', 'git']);
   const shells = [];
   shells.push('cd ' + pkgPath);
   shells.push('git tag -l');

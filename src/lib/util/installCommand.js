@@ -11,7 +11,7 @@ import Wait from '~/class/Wait';
 import global from '~/obj/global';
 
 async function installCommandFromTar(tar, name) {
-  checkDependence(['cd', 'cat', 'rm', 'echo']);
+  await checkDependence(['cd', 'cat', 'rm', 'echo']);
   const localPath = path.join(process.env.HOME, '.drip', 'command');
   const command = fs.openSync(path.join(localPath, 'command.tar.bz'), 'a+');
   fs.writeSync(command, tar);

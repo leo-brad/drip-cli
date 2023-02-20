@@ -15,7 +15,7 @@ async function upgradePackageCrossLocal(name, version, url) {
   const socket = new Socket();
   const latest = await socket.request([0, name], 'one', 'text');
   const result = compareVersion(
-    getLatestVersion(local), latest, (v1, v2) => v1 >= v2
+    await getLatestVersion(local), latest, (v1, v2) => v1 >= v2
   );
   if (result.some((flag) => !flag)) {
     const current = getLatestVersion(local);

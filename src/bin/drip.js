@@ -34,7 +34,7 @@ async function main() {
       await upgrade(...rest);
       break;
     case 'cleanup':
-      cleanup(...rest);
+      await cleanup(...rest);
       break;
     case 'command':
       await command(...rest);

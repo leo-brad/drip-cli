@@ -1,21 +1,17 @@
-//import { spawn, } from 'child_process';
-//import fs from 'fs';
-//import parseConfig from '~/lib/util/parseConfig';
+import { spawn, } from 'child_process';
+import fs from 'fs';
+import parseConfig from '~/lib/util/parseConfig';
 
-//const local = parseConfig('./asset/.drip/local/config');
-//const project = parseConfig('./asset/.drip/project/config');
-//const config = { ...local, ...project, };
-//process.chdir('/tmp/example/.drip/local/drip-local/');
-//spawn(
-  //'npx',
-  //['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
-  //{ detached: true, },
-//);
-//import install from '~/lib/command/install';
+const local = parseConfig('./asset/.drip/local/config');
+const project = parseConfig('./asset/.drip/project/config');
+const config = { ...local, ...project, };
+process.chdir('/tmp/example/.drip/local/drip-local/');
+spawn(
+  'npx',
+  ['electron', 'dist/main.js', JSON.stringify(config), '/tmp/example/'],
+  { detached: true, },
+);
+import install from '~/lib/command/install';
 
-//process.chdir('/tmp/example/');
-//install();
-console.log('Drip install...');
-process.stdout.moveCursor(15, -1);
-while (true) {
-}
+process.chdir('/tmp/example/');
+install();

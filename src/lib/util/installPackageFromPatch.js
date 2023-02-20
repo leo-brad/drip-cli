@@ -6,7 +6,7 @@ import LocalNetDatabase from '~/class/LocalNetDatabase';
 import help from '~/lib/command/help';
 
 export default function installPackageFromPatch(patch, version, name) {
-  checkDependence(['cd', 'git', 'rm']);
+  await checkDependence(['cd', 'git', 'rm']);
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   fs.writeFileSync(path.resolve(localPath, 'patch'), patch);
   const shells = [];

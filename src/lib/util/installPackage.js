@@ -11,18 +11,18 @@ async function installPackageCrossLocal(name, version, url) {
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   const pkgPath = path.resolve('.drip', 'local', 'package', name);
   if (!fs.existsSync(pkgPath)) {
-    installPackageFromGit(version, name);
+    await installPackageFromGit(version, name);
   } else {
     if (version !== '') {
-      const tags = getTagList(localPath);
+      const tags = await getTagList(localPath);
       if (tags.every((tag) => tag !== version)) {
         const socket = new Socket();
         const versionHash = getVersionHash();
         const patch = await socket.request([1, name, versionHash[name], version], 'serail', 'buffer');
-        installPackageFromPatch(patch, version, name);
+        await installPackageFromPatch(patch, version, name);
         socket.end();
       } else {
-        installPackageFromGit(version, name);
+        await installPackageFromGit(version, name);
       }
     }
   }

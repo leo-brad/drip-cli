@@ -6,7 +6,7 @@ import getTagList from '~/lib/util/getTagList';
 import LocalNetDatabase from '~/class/LocalNetDatabase';
 import help from '~/lib/command/help';
 
-export default function installPackageFromTar(tar, version, name) {
+export default async function installPackageFromTar(tar, version, name) {
   await checkDependence(['cd', 'cat', 'rm', 'git']);
   let shells = [];
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);

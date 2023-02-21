@@ -28,7 +28,7 @@ async function main() {
       client(...rest);
       break;
     case 'server':
-      server(...rest);
+      await server(...rest);
       break;
     case 'upgrade':
       await upgrade(...rest);

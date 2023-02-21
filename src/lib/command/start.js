@@ -3,8 +3,12 @@ import path from 'path';
 import getConfig from '~/lib/util/getConfig';
 import checkPath from '~/lib/util/checkPath';
 import help from '~/lib/command/help';
+import checkDependence from '~/lib/util/checkDependence';
+import checkGitInit from '~/lib/util/checkGitInit';
 
-export default function start(...param) {
+export default async function start(...param) {
+  await checkDependence(['git']);
+  checkGitInit();
   checkPath(path.join(process.env.HOME, '.drip', 'command', 'drip-local'), help);
   const [one, ...rest] = param;
   const config = getConfig();

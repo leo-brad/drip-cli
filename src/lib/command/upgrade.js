@@ -20,7 +20,7 @@ async function upgradePackageCrossLocal(name, version, url) {
   if (result.some((flag) => !flag)) {
     const current = getLatestVersion(local);
     const patch = await socket.request([1, name, current, latest], 'serail', 'buffer');
-    installPackageFromPatch(patch, latest, name);
+    await installPackageFromPatch(patch, latest, name);
     console.error('Package ' + '\'' + name + '\'' + ' upgrade...');
   }
   socket.end();

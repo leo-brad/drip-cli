@@ -3,7 +3,7 @@ import path from 'path';
 import checkDependence from '~/lib/util/checkDependence';
 import help from '~/lib/command/help';
 
-export default function getTagList(pkgPath) {
+export default async function getTagList(pkgPath) {
   await checkDependence(['cd', 'git']);
   const shells = [];
   shells.push('cd ' + pkgPath);

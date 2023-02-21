@@ -4,7 +4,7 @@ import fs from 'fs';
 import checkDependence from '~/lib/util/checkDependence';
 import help from '~/lib/command/help';
 
-export default function await installPackageFromGit(version, name) {
+export default async function installPackageFromGit(version, name) {
   await checkDependence(['cd', 'git']);
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   const shells = [];

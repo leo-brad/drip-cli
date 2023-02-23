@@ -3,13 +3,10 @@ import path from 'path';
 
 function buildStatic(project, operates, paths, shells) {
   let srcPath;
-  switch (project) {
-    case 'drip-cli':
-      srcPath = '.';
-      break;
-    default:
-      srcPath = path.resolve('..', project);
-      break;
+  if (project === 'drip-cli') {
+    srcPath = '.';
+  } else {
+    srcPath = path.resolve('..', project);
   }
   const cwd = process.cwd();
   const staticPath = path.join('/', 'tmp', project + '-static');
@@ -32,9 +29,9 @@ function buildStatic(project, operates, paths, shells) {
 function buildDrip() {
   const shells = [];
   //shells.push('rm -rf $HOME/.drip/');
-  //buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
+  buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
   //buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
-  buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
+  //buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
   //buildStatic('drip-server', ['build'], ['dist', 'node_modules'], shells);
   //buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules'], shells);
   //shells.push('node ./dist/bin/install.js');

@@ -1,6 +1,7 @@
 import chalk from 'chalk';
 
 function showView(lines, l, p) {
+  console.log('');
   console.log(chalk.gray(l - 1) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
   console.log(chalk.gray(l) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
   console.log(chalk.gray(String(l).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 3, ' '), chalk.bold.red('~^~'));
@@ -283,9 +284,10 @@ class Parser {
         break;
     }
     console.error(chalk.bold(
-      cp + ' parsing error occurs in line: ' + l + ', ' + 'poistion: ' + p + ';'
+      cp + ' parsing error occurs in line ' + l + ',' + 'poistion ' + p + ';'
     ));
     console.log(e);
+    console.log('');
   }
 }
 

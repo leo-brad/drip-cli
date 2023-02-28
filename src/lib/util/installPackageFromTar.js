@@ -7,7 +7,7 @@ import LocalNetDatabase from '~/class/LocalNetDatabase';
 import help from '~/lib/command/help';
 
 export default async function installPackageFromTar(tar, version, name) {
-  await checkDependence(['cd', 'cat', 'rm', 'git']);
+  await checkDependence(['cd', 'rm', 'git']);
   let shells = [];
   const localPath = path.resolve(process.env.HOME, '.drip', 'package', name);
   if (!fs.existsSync(localPath)) {
@@ -15,7 +15,7 @@ export default async function installPackageFromTar(tar, version, name) {
   }
   fs.writeFileSync(path.join(localPath, 'tag.tar.gz'), tar);
   shells.push('cd ' + localPath);
-  shells.push('cat tag.tar.gz | tar xf -');
+  shells.push('tar xz tag.tar.gz');
   shells.push('rm ./tag.tar.gz');
   shells.push('git init');
   shells.push('git add --all');

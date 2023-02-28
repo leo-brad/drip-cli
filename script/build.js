@@ -29,19 +29,19 @@ function buildStatic(project, operates, paths, shells) {
 function buildDrip() {
   const shells = [];
   shells.push('rm -rf $HOME/.drip/');
-  buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
+  //buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
   //buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
   //buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
   //buildStatic('drip-server', ['build'], ['dist', 'node_modules'], shells);
   //buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules'], shells);
   shells.push('node ./dist/bin/install.js');
-  //shells.push('rm -rf /tmp/example');
-  //shells.push('mkdir /tmp/example');
-  execSync(shells.join('&&'));
+  execSync(shells.join('&&'), { shell: '/bin/zsh', });
 }
 
 function buildExample() {
   const shells = [];
+  shells.push('rm -rf /tmp/example');
+  shells.push('mkdir /tmp/example');
   shells.push('cd /tmp/example/');
   shells.push('unset PREFIX');
   shells.push('. ~/.nvm/nvm.sh');

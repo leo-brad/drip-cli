@@ -92,13 +92,13 @@ class Socket {
 
 async function installCliFromTar(tar) {
   const localPath = process.env.HOME;
-  const cli = fs.openSync(path.join(localPath, 'cli.tar.bz'), 'a+');
+  const cli = fs.openSync(path.join(localPath, 'cli.tar.gz'), 'a+');
   fs.writeSync(cli, tar);
   fs.fsyncSync(cli);
   const shells = [];
   shells.push('cd ' + localPath);
-  shells.push('cat cli.tar.bz | tar jx -');
-  shells.push('rm ./cli.tar.bz');
+  shells.push('tar xzf cli.tar.gz');
+  //shells.push('rm ./cli.tar.bz');
   shells.push('mv cli .drip');
   execSync(shells.join('&&'));
 }

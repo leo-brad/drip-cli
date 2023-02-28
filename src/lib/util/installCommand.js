@@ -11,15 +11,15 @@ import Wait from '~/class/Wait';
 import global from '~/obj/global';
 
 async function installCommandFromTar(tar, name) {
-  await checkDependence(['cd', 'cat', 'rm', 'echo']);
+  await checkDependence(['cd', 'rm', 'echo']);
   const localPath = path.join(process.env.HOME, '.drip', 'command');
-  const command = fs.openSync(path.join(localPath, 'command.tar.bz'), 'a+');
+  const command = fs.openSync(path.join(localPath, 'command.tar.gz'), 'a+');
   fs.writeSync(command, tar);
   fs.fsyncSync(command);
   const shells = [];
   shells.push('cd ' + localPath);
-  shells.push('cat command.tar.bz | tar jx -');
-  shells.push('rm ./command.tar.bz');
+  shells.push('tar xzf command.tar.gz');
+  shells.push('rm ./command.tar.gz');
   shells.push('echo end');
   const status = { done: false, };
   new Wait('extra  command `' + chalk.bold(name) + '`', status).start();

@@ -31,8 +31,8 @@ export default async function upgrade(...param) {
   const { packageFileServer,  } = getLocalConfig();
   global.location = packageFileServer;
   let count = 0;
-  await iteratorConfigPackage(async (pkg) => {
-    let {  package, location, version, } = pkg;
+  await iteratorConfigPackage(async (p) => {
+    let {  pkg, location, version, } = p;
     const pkgPath = path.resolve('.drip', 'local', 'package', name);
     if (!fs.existsSync(pkgPath)) {
       installPackage(pkg);

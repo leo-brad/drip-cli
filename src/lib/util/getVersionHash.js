@@ -10,8 +10,8 @@ export default function getVersionHash() {
   if (hash === undefined) {
     hash = {};
     packages.forEach((p) => {
-      let [_, name, _1, version] = p.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)(.*)$/);
-      hash[name] = version;
+      let { pkg, version, } = p;
+      hash[pkg] = version;
     });
   }
   return hash;

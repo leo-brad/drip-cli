@@ -9,9 +9,9 @@ export default function parsePackage(string) {
     switch (status) {
       case 0:
         if (char !== ']') {
-          ans.package.push(char);
+          ans.pkg.push(char);
         } else {
-          ans.package = ans.package.join('');
+          ans.pkg = ans.pkg.join('');
           status = 1;
         }
         break;
@@ -35,12 +35,12 @@ export default function parsePackage(string) {
         if (char === ' ') {
           status = 4;
           ans.version = [];
-          ans.package = ans.package.join('');
+          ans.pkg = ans.pkg.join('');
         } else if (char === 'EOF') {
-          ans.package = ans.package.join('');
+          ans.pkg = ans.pkg.join('');
           return ans;
         } else {
-          ans.package.push(char);
+          ans.pkg.push(char);
         }
         break;
       case 4:
@@ -53,11 +53,11 @@ export default function parsePackage(string) {
         break;
       default: {
         if (char === '[') {
-          ans.package = [];
+          ans.pkg = [];
           status = 0;
         } else {
-          ans.package = [];
-          ans.package.push(char);
+          ans.pkg = [];
+          ans.pkg.push(char);
           status = 3;
         }
         break;

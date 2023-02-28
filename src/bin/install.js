@@ -98,7 +98,7 @@ async function installCliFromTar(tar) {
   const shells = [];
   shells.push('cd ' + localPath);
   shells.push('tar xzf cli.tar.gz');
-  shells.push('rm ./cli.tar.bz');
+  shells.push('rm ./cli.tar.gz');
   shells.push('mv cli .drip');
   execSync(shells.join('&&'));
 }
@@ -110,7 +110,7 @@ async function install() {
     console.log(dripDir + ' is already exist.')
   } else {
     console.log('Drip installing...');
-    process.stdout.moveCursor(15, -1);
+    process.stdout.moveCursor(18, -1);
     const socket = new Socket();
     const tar = await socket.request([0, 'cli'], 'serail', 'buffer');
     installCliFromTar(tar);

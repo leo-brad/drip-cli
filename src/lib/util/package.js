@@ -11,8 +11,8 @@ export function diffAddPackage(pkgs) {
   iteratorPackagePath((p) => {
     hash[p] = true;
   });
-  pkgs.forEach((pkg) => {
-    const [_, name] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)$/);
+  pkgs.forEach((p) => {
+    const { pkg, } = p;
     if (!hash[name]) {
       ans.push(pkg);
     }
@@ -24,8 +24,8 @@ export function diffPlusPackage(pkgs) {
   const ans = [];
   const packagesPath = path.join('.drip', 'local', 'package');
   const hash = {};
-  pkgs.forEach((pkg) => {
-    const [_, name] = pkg.match(/^\[(\w+)\]\(([\w\-\.\/\:]+)\)$/);
+  pkgs.forEach((p) => {
+    const { pkg, } = p;
     hash[name] = true;
   });
   if (fs.existsSync(packagesPath)) {

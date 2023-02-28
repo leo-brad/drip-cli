@@ -7,7 +7,7 @@ export default function getConfig() {
   if (config === undefined) {
     const local = parseConfig(path.resolve('.drip', 'local', 'config'));
     const project = parseConfig(path.resolve('.drip', 'project', 'config'));
-    config = { ...local, ...project, };
+    config = { ...project, ...local,  };
   }
   return config;
 }

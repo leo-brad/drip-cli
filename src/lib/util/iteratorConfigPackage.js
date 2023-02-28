@@ -1,4 +1,3 @@
-import getPkgHash from '~/lib/util/getPkgHash';
 import getConfig from '~/lib/util/getConfig';
 
 export default async function iteratorConfigPackage(method, finish) {

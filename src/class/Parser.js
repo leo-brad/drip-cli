@@ -1,4 +1,5 @@
 import chalk from 'chalk';
+import parsePackage from '~/lib/util/parsePackage';
 
 function showView(lines, l, p) {
   console.log('');
@@ -10,12 +11,6 @@ function showView(lines, l, p) {
 
 function showTip(message) {
   console.log(chalk.bold('Tip') + ': ' + message);
-}
-
-function checkPackage(s) {
-  if (!/^\[\w+\]\([\w\-\.\/\:]+\)(.*)$/.test(s)) {
-    throw Error('package parsing exception.');
-  }
 }
 
 function matchChar(l, r) {
@@ -183,26 +178,26 @@ class Parser {
     return name;
   }
 
-  parseList(check) {
+  parseList(parse) {
     const ans = [];
     while (true) {
       const c =  this.s.glanceChar();
       if (c === '' || c === '\n') {
         break;
       }
-      ans.push(this.parseItem(check));
+      ans.push(this.parseItem(parse));
       this.matchOneChar('\n');
     }
     return ans;
   }
 
-  parseItem(check) {
+  parseItem(parse) {
     this.matchOneCharMultiply(' ', 2);
     this.matchOneChar('-');
     this.matchOneChar(' ');
-    const item = this.parseStringEndWith('\n');
-    if (typeof check === 'function') {
-      check(item);
+    let item = this.parseStringEndWith('\n');
+    if (typeof parse === 'function') {
+      item = parse(item);
     }
     return item;
   }
@@ -214,7 +209,7 @@ class Parser {
       this.matchOneChar('\n')
       switch (n) {
         case 'packages':
-          obj[n] = this.parseList(checkPackage);
+          obj[n] = this.parseList(parsePackage);
           break;
         default:
           obj[n] = this.parseList();

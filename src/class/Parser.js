@@ -9,7 +9,7 @@ function showView(lines, l, p) {
 }
 
 function showTip(message) {
-  console.log(chalk.bold('Tip: ') + message);
+  console.log(chalk.bold('Tip') + ': ' + message);
 }
 
 function checkPackage(s) {
@@ -107,7 +107,7 @@ class Parser {
       this.matchStringEndWith('\n');
       this.matchOneChar('\n');
     } catch(e) {
-      throw Error("remove necessary commment.");
+      throw Error("comment parsing exception.");
     }
   }
 
@@ -267,24 +267,24 @@ class Parser {
     const { cp, } = this;
     showView(lines, l, p);
     switch (e.message) {
-      case 'remove necessary commment.':
-        showTip(chalk.bold('please don\'t manually modify commment information like eg:(' + chalk.red('" This is a necessary comment.') + ').'));
+      case 'comment parsing exception.':
+        showTip(chalk.bold('comment correct format is ' + chalk.gray('" comment')));
         break;
       case 'format parsing exception.':
         showTip(chalk.bold('the current location can be a char "' + chalk.red(e.c) + '".'));
         break;
       case 'name parsing exception.':
-        showTip(chalk.bold('name correct format is eg:(' + chalk.green('name1-name2') + ').'));
+        showTip(chalk.bold('name correct format is (' + chalk.green('name1-name2') + ').'));
         break;
       case 'integer parsing exception.':
-        showTip(chalk.bold('integer correct format is eg:(' + chalk.green('10432') + ').'));
+        showTip(chalk.bold('integer correct format is (' + chalk.green('number') + ').'));
         break;
       case 'package parsing exception.':
-        showTip(chalk.bold('package correct format is [' + chalk.green('alias') +  '](' + chalk.red('address') + ').'));
+        showTip(chalk.bold('package incorrect format is [' + chalk.green('alias') +  '](' + chalk.red('address') + ')' + ' ' + chalk.gray('version')) + '.');
         break;
     }
     console.error(chalk.bold(
-      cp + ' parsing error occurs in line ' + l + ',' + 'poistion ' + p + ';'
+      cp + ' parsing error in line ' + l + ',' + 'poistion ' + p + ';'
     ));
     console.log(e);
     console.log('');

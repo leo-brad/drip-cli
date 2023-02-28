@@ -38,8 +38,7 @@ export default async function upgrade(...param) {
       installPackage(pkg);
       count += 1;
     } else {
-      version = version.trim();
-      if (version === '') {
+      if (version === undefined) {
         await upgradePackageCrossLocal(name, version, url);
       }
     }

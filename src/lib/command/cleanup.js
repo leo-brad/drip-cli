@@ -36,7 +36,7 @@ export default async function cleanup(...param) {
     const pkgPath = path.join(packagePath, p);
     const localPath = path.resolve(process.env.HOME, '.drip', 'package', p);
     let version = versionHash[p];
-    if (version === '') {
+    if (version === undefined) {
       version = getLatestVersion(pkgPath);
     }
     if (options.a || options.all) {

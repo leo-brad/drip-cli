@@ -274,8 +274,8 @@ class Parser {
       case 'integer parsing exception.':
         showTip(chalk.bold('integer correct format is (' + chalk.green('number') + ').'));
         break;
-      case 'package parsing exception.':
-        showTip(chalk.bold('package incorrect format is [' + chalk.green('alias') +  '](' + chalk.red('address') + ')' + ' ' + chalk.gray('version')) + '.');
+      case 'package formate type two parse error.':
+        showTip(chalk.bold('package correct format is [' + chalk.green('alias') +  '](' + chalk.red('address') + ')') + '.');
         break;
     }
     console.error(chalk.bold(

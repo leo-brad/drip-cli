@@ -20,7 +20,7 @@ export default function parsePackage(string) {
           ans.location = [];
           status = 2;
         } else {
-          throw Error('package formate No.2 parse error.');
+          throw Error('package formate type two parse error.');
         }
         break;
       case 2:

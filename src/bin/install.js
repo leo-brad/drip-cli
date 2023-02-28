@@ -98,7 +98,7 @@ async function installCliFromTar(tar) {
   const shells = [];
   shells.push('cd ' + localPath);
   shells.push('tar xzf cli.tar.gz');
-  //shells.push('rm ./cli.tar.bz');
+  shells.push('rm ./cli.tar.bz');
   shells.push('mv cli .drip');
   execSync(shells.join('&&'));
 }

@@ -1,10 +1,16 @@
 import chalk from 'chalk';
 import parsePackage from '~/lib/util/parsePackage';
+import parseYaml from '~/lib/util/parseYaml';
+import yamlTemplate from '~/lib/template/yamlTemplate';
+
+function highLightLine(line) {
+  return chalk.bgWhite(parseYaml(line).map((e) => yamlTemplate(e)).join(''));
+}
 
 function showView(lines, l, p) {
   console.log('');
-  console.log(chalk.gray(l - 1) + ' ' + chalk.gray.bgWhite(getLines(lines, l - 2)));
-  console.log(chalk.gray(l) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
+  console.log(chalk.gray(l - 1) + ' ' + highLightLine(getLines(lines, l - 2)));
+  console.log(chalk.gray(l) + ' ' +  highLightLine(getLines(lines, l - 1)) + chalk.bgWhite(' '));
   console.log(chalk.gray(String(l).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 3, ' '), chalk.bold.red('~^~'));
   console.log(chalk.gray(l + 1) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
 }

@@ -15,7 +15,7 @@ export default async function installPackageFromTar(tar, version, name) {
   }
   fs.writeFileSync(path.join(localPath, 'tag.tar.gz'), tar);
   shells.push('cd ' + localPath);
-  shells.push('tar xz tag.tar.gz');
+  shells.push('tar xzf tag.tar.gz');
   shells.push('rm ./tag.tar.gz');
   shells.push('git init');
   shells.push('git add --all');

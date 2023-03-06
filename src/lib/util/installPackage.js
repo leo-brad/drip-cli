@@ -28,8 +28,8 @@ async function installPackageCrossLocal(pkg, version) {
   }
 }
 
-export default async function installPackage(pkg) {
-  let { pkg, location, version, } = pkg;
+export default async function installPackage(p) {
+  let { pkg, location, version, } = p;
   if (location !== undefined) {
     const pkgPath = path.resolve('.drip', 'local', 'package',pkg);
     execSync('git clone ' + location + ' ' + pkgPath);

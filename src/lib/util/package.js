@@ -4,6 +4,7 @@ import path from 'path';
 import fs from 'fs';
 import chalk from 'chalk';
 import iteratorPackagePath from '~/lib/util/iteratorPackagePath';
+import getPkgHash from '~/lib/util/getPkgHash';
 
 export function diffAddPackage(pkgs) {
   const ans = [];
@@ -13,8 +14,8 @@ export function diffAddPackage(pkgs) {
   });
   pkgs.forEach((p) => {
     const { pkg, } = p;
-    if (!hash[name]) {
-      ans.push(pkg);
+    if (!hash[pkg]) {
+      ans.push(p);
     }
   });
   return ans;
@@ -26,12 +27,13 @@ export function diffPlusPackage(pkgs) {
   const hash = {};
   pkgs.forEach((p) => {
     const { pkg, } = p;
-    hash[name] = true;
+    hash[pkg] = true;
   });
   if (fs.existsSync(packagesPath)) {
+    const pkgHash = getPkgHash();
     fs.readdirSync(packagesPath).forEach((p) => {
       if (!hash[p]) {
-        ans.push(p);
+        ans.push(pkgHash[p]);
       }
     });
   }

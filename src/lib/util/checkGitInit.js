@@ -1,4 +1,7 @@
-export function checkGitInit() {
+import { execSync, } from 'child_process';
+import chalk from 'chalk';
+
+export default function checkGitInit() {
   try {
     execSync('git status');
   } catch (e) {

@@ -22,7 +22,7 @@ async function installCommandFromTar(tar, name) {
   shells.push('rm ./command.tar.gz');
   shells.push('echo end');
   const status = { done: false, };
-  new Wait('extra  command `' + chalk.bold(name) + '`', status).start();
+  new Wait('extra' + chalk.bold(name), status).start();
   await new Promise((resolve) => {
     exec(shells.join('&&'), (error, stdout, stderr) => {
       if (stdout === 'end\n') {
@@ -62,7 +62,7 @@ export default async function installCommand(command, alias) {
     await installCommandFromTar(tar, name);
     console.log(
       'Drip command `' + name + '` install on ' +
-      path.join(process.cwd(), '.drip', 'local', 'drip-' + name) + '...'
+      path.join(process.env.HOME, '.drip', 'command', name) + '...'
     );
   } else {
     console.log('Drip command `' + command + '` is already exist.');

@@ -15,7 +15,7 @@
     //{ detached: true, },
   //);
 //}
-import chalk from 'chalk';
-import Wait from '~/class/Wait';
+import start from '~/lib/command/start';
 
-new Wait('extra', { done: false, }).start();
+process.chdir('/tmp/example/');
+start();

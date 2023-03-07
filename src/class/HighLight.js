@@ -45,9 +45,6 @@ class HighLight {
           }
         }
       });
-      if (char === ' ' || char === '\n') {
-        ans.push({ type: char, });
-      }
       for (let j = 0; j < times.length; j += 1) {
         if (times[j] <= 0) {
           const l = new lexers[j](this, ans, j);
@@ -58,6 +55,9 @@ class HighLight {
             times[j] += 1;
           }
         }
+      }
+      if (char === ' ' || char === '\n') {
+        ans.push({ type: char, });
       }
     }
     return ans;

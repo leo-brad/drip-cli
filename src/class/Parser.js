@@ -3,6 +3,21 @@ import parsePackage from '~/lib/util/parsePackage';
 import parseYaml from '~/lib/util/parseYaml';
 import yamlTemplate from '~/lib/template/yamlTemplate';
 
+function getNamesTip(numbers) {
+  return numbers.map((n) => {
+    return chalk.green.bold('name') + '[' + chalk.bold(String(n)) + ']';
+  }).join('-') + '...';
+}
+
+function getPrintableChar(char) {
+  switch (char) {
+    case '\n':
+      return '\/n';
+    default:
+      return char;
+  }
+}
+
 function highLightLine(line) {
   return chalk.bgWhite(parseYaml(line).map((e) => yamlTemplate(e)).join(''));
 }
@@ -10,9 +25,9 @@ function highLightLine(line) {
 function showView(lines, l, p) {
   console.log('');
   console.log(chalk.gray(l - 1) + ' ' + highLightLine(getLines(lines, l - 2)));
-  console.log(chalk.gray(l) + ' ' +  highLightLine(getLines(lines, l - 1)) + chalk.bgWhite(' '));
+  console.log(chalk.gray(l) + ' ' +  chalk.black.bgWhite(getLines(lines, l - 1)));
   console.log(chalk.gray(String(l).replace(/[0-9]+/, ' ')) + ' '.padEnd(p - 3, ' '), chalk.bold.red('~^~'));
-  console.log(chalk.gray(l + 1) + ' ' + chalk.gray.bgWhite(getLines(lines, l)));
+  console.log(chalk.gray(l + 1) + ' ' + highLightLine(getLines(lines, l)));
 }
 
 function showTip(message) {
@@ -269,16 +284,16 @@ class Parser {
     showView(lines, l, p);
     switch (e.message) {
       case 'comment parsing exception.':
-        showTip(chalk.bold('comment correct format is ' + chalk.gray('" comment')));
+        showTip(chalk.bold('comment correct format is ' + chalk.gray('" yaml formate comment.')));
         break;
       case 'format parsing exception.':
-        showTip(chalk.bold('the current location can be a char "' + chalk.red(e.c) + '".'));
+        showTip(chalk.bold('the current location can be a char ') + '"' + chalk.red.bold(getPrintableChar(e.c)) + '".');
         break;
       case 'name parsing exception.':
-        showTip(chalk.bold('name correct format is (' + chalk.green('name1-name2') + ').'));
+        showTip(chalk.bold('name correct format is ') + getNamesTip([1, 2])  + chalk.bold('.'));
         break;
       case 'integer parsing exception.':
-        showTip(chalk.bold('integer correct format is (' + chalk.green('number') + ').'));
+        showTip(chalk.bold('integer correct format is ' + chalk.green('number') + '.'));
         break;
       case 'package formate type two parse error.':
         showTip(chalk.bold('package correct format is [' + chalk.green('alias') +  '](' + chalk.red('address') + ')') + '.');

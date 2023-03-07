@@ -27,9 +27,7 @@ class Wait {
         this.count = 0;
       }
       const spot = new Array(count);
-      console.log(
-        operate + spot.fill('.').join('')
-      );
+      console.log(operate + spot.fill('.').join(''));
       this.count += 1;
     } else {
       clearInterval(this.id);

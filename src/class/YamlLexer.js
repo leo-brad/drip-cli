@@ -19,7 +19,7 @@ class YamlLexer extends Lexer {
           (code >= 59 && code <= 64) ||
           (code >= 33 && code <= 47) ||
           (code >= 123 && code <= 153)
-        ) && char !== '"' && char !== '-' && char !== '('
+        ) && char !== '"' && char !== '-' && char !== '(' && char !== ')'
         ) {
           this.elem = [];
           this.elem.push(char);
@@ -28,6 +28,7 @@ class YamlLexer extends Lexer {
         }
         switch (char) {
           case '"':
+            this.ans.push(this.makeLexer('"'));
             this.elem = [];
             this.status = 2;
             break;
@@ -36,7 +37,7 @@ class YamlLexer extends Lexer {
             return this.quit();
           case '(':
             this.elem = [];
-            this.status = 3;
+            this.status = 4;
             break;
           default:
             return this.quit();
@@ -58,23 +59,25 @@ class YamlLexer extends Lexer {
         }
         break;
       case 2:
-        if (this.elem.length === 0) {
-          if (char === ' ') {
-            this.elem.push(char);
-          } else {
-            return this.quit();
-          }
-        } else if (this.elem.length >= 1) {
-          if (char === '\n') {
-            this.ans.push(this.makeLexer('"'));
-            this.ans.push(this.makeLexer('comment', this.elem.join('')));
-            return this.quit();
-          } else {
-            this.elem.push(char);
-          }
+        if (char === ' ') {
+          this.status = 3;
+        } else {
+          return this.quit();
         }
         break;
-      case 3: {
+      case 3:
+        if (char === '\n' || char === 'EOF') {
+          this.ans.push(this.makeLexer('comment', this.elem.join('')));
+          return this.quit();
+        } else if (char === ' ') {
+          this.ans.push(this.makeLexer('comment', this.elem.join('')));
+          this.elem = [];
+          return;
+        } else {
+          this.elem.push(char);
+        }
+        break;
+      case 4: {
         if (char === ')') {
           this.ans.push(this.makeLexer('('));
           this.ans.push(this.makeLexer('unit', this.elem.join('')));

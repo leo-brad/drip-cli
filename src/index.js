@@ -15,7 +15,7 @@
     //{ detached: true, },
   //);
 //}
-import start from '~/lib/command/start';
+import start from '~/lib/command/client/main.js';
 
 process.chdir('/tmp/example/');
 start();

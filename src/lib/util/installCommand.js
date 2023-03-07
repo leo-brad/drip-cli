@@ -22,7 +22,7 @@ async function installCommandFromTar(tar, name) {
   shells.push('rm ./command.tar.gz');
   shells.push('echo end');
   const status = { done: false, };
-  new Wait('extra' + chalk.bold(name), status).start();
+  new Wait(chalk.bold('extra'), status).start();
   await new Promise((resolve) => {
     exec(shells.join('&&'), (error, stdout, stderr) => {
       if (stdout === 'end\n') {

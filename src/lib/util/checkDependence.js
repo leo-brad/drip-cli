@@ -50,35 +50,52 @@ function showError(dependence, number) {
   console.log('');
 }
 
-export default async function checkDependence(dependencies) {
+function singleResolve(status, resolve) {
+  status.count += 1;
+  if (status.count >= 3) {
+    resolve();
+  }
+}
+
+export default async function checkDependence(dependencies, quit) {
   let error = 0;
   for (let i = 0; i < dependencies.length; i += 1) {
     const d = dependencies[i];
-    let err = 0;
+    const status = { count: 0, err: 0, };
     await new Promise((resolve, reject) => {
       exec(d, (error) => {
         if (error !== null) {
-          err += 1;
-          resolve();
+          status.err += 1;
+          singleResolve(status, resolve);
         } else {
-          resolve();
+          singleResolve(status, resolve);
         }
       });
       exec(d + ' --help', (error) => {
         if (error !== null) {
-          err += 1;
-          resolve();
+          status.err += 1;
+          singleResolve(status, resolve);
         } else {
-          resolve();
+          singleResolve(status, resolve);
+        }
+      });
+      exec(d + ' -rf', (error) => {
+        if (error !== null) {
+          status.err += 1;
+          singleResolve(status, resolve);
+        } else {
+          singleResolve(status, resolve);
         }
       });
     });
-    if (err >= 2) {
+    if (status.err >= 3) {
       error += 1;
       showError(d, error);
     }
   }
   if (error > 0) {
-    process.exit(0);
+    return process.exit(0);
+  } else {
+    return true;
   }
 }

@@ -6,6 +6,7 @@ import h from '~/lib/command/help';
 
 export default function client(...param) {
   checkPath(path.join(process.env.HOME, '.drip', 'command', 'client'), h);
+  checkPath(path.resolve('.drip'), h);
   const [one, ...rest] = param;
   switch (one) {
     case '--help':

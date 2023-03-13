@@ -10,6 +10,7 @@ export default async function start(...param) {
   await checkDependence(['git']);
   checkGitInit();
   checkPath(path.join(process.env.HOME, '.drip', 'command', 'local'), help);
+  checkPath(path.resolve('.drip'), help);
   const [one, ...rest] = param;
   const config = getConfig();
   const cwd = process.cwd();

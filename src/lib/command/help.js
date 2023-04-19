@@ -21,16 +21,20 @@ export default function help(...param) {
     '  ' + OptionTip('y', 'yes', 'Skip initial question and init base drip project.'),
     '  - command ' + commandList(['add', 'remove', 'upgrade', 'list']) + ' drip command program.',
     ...dynamicHelp(
-      path.join(process.env.HOME, 'command', 'drip-local'), true,
+      path.join(process.env.HOME, 'command', 'local'), true,
       ['  - start Start drip main program.'],
     ),
     ...dynamicHelp(
-      path.join(process.env.HOME, 'command', 'drip-client'), true,
+      path.join(process.env.HOME, 'command', 'client'), true,
       ['  - client Start drip client program.'],
     ),
     ...dynamicHelp(
-      path.join(process.env.HOME, 'command', 'drip-server'), true,
+      path.join(process.env.HOME, 'command', 'server'), true,
       ['  - server Start drip server program.'],
+    ),
+    ...dynamicHelp(
+      path.join(process.env.HOME, 'command', 'package'), true,
+      ['  - package Develop drip package program.'],
     ),
     ...dynamicHelp(
       localPath, true,

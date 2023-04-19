@@ -1,6 +1,6 @@
 import help from '~/lib/command/help';
 import init from '~/lib/command/init';
-import pkg from '~/lib/command/pkg';
+import pkg from '~/lib/command/package';
 import start from '~/lib/command/start';
 import install from '~/lib/command/install';
 import client from '~/lib/command/client';
@@ -29,6 +29,9 @@ async function main() {
       break;
     case 'server':
       await server(...rest);
+      break;
+    case 'package':
+      await pkg(...rest);
       break;
     case 'upgrade':
       await upgrade(...rest);

@@ -1,9 +1,9 @@
 import chalk from 'chalk';
-import commandTip from '~/lib/util/commandTip';
+import optionTip from '~/lib/util/optionTip';
 
 export default function help(...param) {
   console.log([
-    commandTip('create', 'Create new drip package project.'),
-    commandTip('upload', 'Upload package related file.'),
+    optionTip('c', 'create', 'Create new drip package project.', true),
+    optionTip('u', 'upload', 'Upload drip package related file.', true),
   ].join('\n'));
 }

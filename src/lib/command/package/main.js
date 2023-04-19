@@ -5,7 +5,6 @@ export default function main(...rest) {
   const cwd = process.cwd();
   process.chdir(path.join(process.env.HOME, '.drip', 'command', 'package'));
   spawn(
-    'node', ['dist/index.js', ...rest],
-    { detached: true, },
+    'node', ['dist/index.js', ...rest], { stdio: 'inherit', },
   );
 }

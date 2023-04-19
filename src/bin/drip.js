@@ -30,9 +30,6 @@ async function main() {
     case 'server':
       await server(...rest);
       break;
-    case 'package':
-      await pkg(...rest);
-      break;
     case 'upgrade':
       await upgrade(...rest);
       break;

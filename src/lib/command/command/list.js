@@ -7,19 +7,19 @@ export default function list() {
   console.log([
     chalk.bold('Command don\'t be install not yet') + ':',
     ...dynamicHelp(
-      path.join(process.env.HOME, '.drip', 'command', 'drip-local'), false,
+      path.join(process.env.HOME, '.drip', 'command', 'local'), false,
       ['- start Start drip main program.'],
     ),
     ...dynamicHelp(
-      path.join(process.env.HOME, '.drip', 'command', 'drip-client'), false,
+      path.join(process.env.HOME, '.drip', 'command', 'client'), false,
       ['- client Start drip client program.'],
     ),
     ...dynamicHelp(
-      path.join(process.env.HOME, 'drip', 'command', 'drip-server'), false,
+      path.join(process.env.HOME, '.drip', 'command', 'server'), false,
       ['- server Start drip server program.'],
     ),
     ...dynamicHelp(
-      path.join(process.env.HOME, 'drip', 'command', 'drip-package'), false,
+      path.join(process.env.HOME, '.drip', 'command', 'package'), false,
       ['- package Develop drip package program.'],
     ),
   ].filter((e) => e !== undefined).join('\n'));

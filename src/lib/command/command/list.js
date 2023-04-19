@@ -18,5 +18,9 @@ export default function list() {
       path.join(process.env.HOME, 'drip', 'command', 'drip-server'), false,
       ['- server Start drip server program.'],
     ),
+    ...dynamicHelp(
+      path.join(process.env.HOME, 'drip', 'command', 'drip-package'), false,
+      ['- package Develop drip package program.'],
+    ),
   ].filter((e) => e !== undefined).join('\n'));
 }

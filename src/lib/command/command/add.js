@@ -2,7 +2,7 @@ import checkPath from '~/lib/util/checkPath';
 import installCommand from '~/lib/util/installCommand';
 
 export default async function add(...param) {
-  const commands = ['start', 'client', 'server'];
+  const commands = ['start', 'client', 'server', 'package'];
   const alias = {
     'local': 'start',
   };

@@ -18,6 +18,7 @@ export default function help(...param) {
     '                                ',
     chalk.bold('Command line prompt') + ':',
     '  - init  Initial current project as a drip project.',
+    '  - create Create new drip package project.',
     '  ' + OptionTip('y', 'yes', 'Skip initial question and init base drip project.'),
     '  - command ' + commandList(['add', 'remove', 'upgrade', 'list']) + ' drip command program.',
     ...dynamicHelp(
@@ -33,8 +34,8 @@ export default function help(...param) {
       ['  - server Start drip server program.'],
     ),
     ...dynamicHelp(
-      path.join(process.env.HOME, '.drip', 'command', 'package'), true,
-      ['  - package Develop drip package program.'],
+      path.join(process.env.HOME, '.drip', 'command', 'upload'), true,
+      ['  - upload Upload drip package file.'],
     ),
     ...dynamicHelp(
       localPath, true,

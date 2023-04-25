@@ -28,12 +28,12 @@ function buildStatic(project, operates, paths, shells) {
 function buildDrip() {
   const shells = [];
   //shells.push('rm -rf $HOME/.drip/');
-  //buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
+  buildStatic('drip-cli', ['build'], ['bin', 'dist', 'asset', 'node_modules', 'package', 'db', 'command', 'config'], shells);
   //buildStatic('drip-local', ['build', 'pro'], ['dist', 'node_modules'], shells);
   //buildStatic('drip-package-node', ['build', 'pro'], ['dist'], shells);
   //buildStatic('drip-server', ['build'], ['dist', 'node_modules'], shells);
   //buildStatic('drip-client', ['build', 'pro'], ['dist', 'node_modules'], shells);
-  buildStatic('drip-package', ['build'], ['dist', 'node_modules'], shells);
+  buildStatic('drip-upload', ['build'], ['dist', 'node_modules'], shells);
   //shells.push('node ./dist/bin/install.js');
   execSync(shells.join('&&'));
 }

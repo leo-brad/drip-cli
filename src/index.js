@@ -15,4 +15,5 @@
     //{ detached: true, },
   //);
 //}
-import '~/bin/drip';
+import help from '~/lib/command/package/help';
+help();

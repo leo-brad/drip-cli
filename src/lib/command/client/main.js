@@ -5,7 +5,7 @@ export default function main(...rest) {
   const cwd = process.cwd();
   process.chdir(path.join(process.env.HOME, '.drip', 'command', 'client'));
   spawn(
-    'npx', ['electron', 'dist/main.js', ...rest],
+    'npx', ['electron', 'dist/main.js', cwd, ...rest],
     { detached: true, },
   );
 }

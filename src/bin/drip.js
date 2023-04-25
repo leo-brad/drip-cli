@@ -1,12 +1,13 @@
 import help from '~/lib/command/help';
 import init from '~/lib/command/init';
-import pkg from '~/lib/command/package';
+import upload from '~/lib/command/upload';
 import start from '~/lib/command/start';
 import install from '~/lib/command/install';
 import client from '~/lib/command/client';
 import server from '~/lib/command/server';
 import cleanup from '~/lib/command/cleanup';
 import upgrade from '~/lib/command/upgrade';
+import create from '~/lib/command/create';
 import command from '~/lib/command/command';
 
 async function main() {
@@ -15,11 +16,14 @@ async function main() {
     case 'init':
       await init(...rest);
       break;
+    case 'create':
+      await create(...rest);
+      break;
     case 'start':
       await start(...rest);
       break;
-    case 'package':
-      pkg(...rest);
+    case 'upload':
+      await upload(...rest);
       break;
     case 'install':
       await install(...rest);

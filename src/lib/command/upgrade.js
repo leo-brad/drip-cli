@@ -14,7 +14,7 @@ import global from '~/obj/global';
 async function upgradePackageCrossLocal(name, version, url) {
   const local = path.resolve('.drip', 'local', 'package', name);
   const socket = new Socket();
-  const latest = await socket.request([0, name], 'one', 'text');
+  const latest = await socket.request([0, 'pkg', name], 'one', 'text');
   const result = compareVersion(
     await getLatestVersion(local), latest, (v1, v2) => v1 >= v2
   );

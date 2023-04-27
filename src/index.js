@@ -15,5 +15,6 @@
     //{ detached: true, },
   //);
 //}
-import help from '~/lib/command/package/help';
-help();
+process.chdir('/tmp/example/');
+import install from '~/lib/command/install';
+install();

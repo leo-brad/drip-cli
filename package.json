@@ -1,9 +1,9 @@
 {
   "name": "drip-cli",
   "version": "1.0.0",
-  "description": "A cli for drip.",
+  "description": "Drip command line tool.",
   "main": "index.js",
-  "author": "eric hart",
+  "author": "Leo Brad",
   "license": "MIT",
   "scripts": {
     "run": "yarn run build && node dist/index.js",

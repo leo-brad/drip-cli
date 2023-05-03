@@ -10,7 +10,7 @@ export default async function server(...param) {
   await checkDependence(['git']);
   checkGitInit();
   checkPath(path.join(process.env.HOME, '.drip', 'command', 'server'), h);
-  checkPath(resolve('.drip'), h);
+  checkPath(path.resolve('.drip'), h);
   const [one, ...rest] = param;
   switch (one) {
     case '--help':
